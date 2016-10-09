@@ -38,7 +38,7 @@ public class PropertiesUtil {
 	public static Map<String, String> getBeanId(){
 		Map<String, String> map = new LinkedHashMap<>();
 		String id = prop.getProperty("bean.id");
-		if(id!=null){
+		if(id!=null && !"".equals(id.trim())){
 			id = id.trim();
 			map.put("id", id);
 			map.put("idType", getBeanFields().get(id));
@@ -46,7 +46,6 @@ public class PropertiesUtil {
 			map.put("id", "id");
 			map.put("idType", "Integer");
 		}
-		
 		
 		return map;
 	}
@@ -57,13 +56,17 @@ public class PropertiesUtil {
 	public static Map<String, String> getBeanFields(){
 		Map<String, String> map = new LinkedHashMap<>();
 		String fields = prop.getProperty("bean.fields");
-		if(fields!=null){
-			fields = fields.trim();
+		
+		//use default if bean.id is empty
+		String id = prop.getProperty("bean.id");
+		if(id==null || "".equals(id.trim())){
+			map.put("id", "Integer");
 		}
+				
 		String[] fieldArr = fields.split(",");
 		for(String field : fieldArr){
 			if(field.contains(":")){
-				map.put(field.substring(0,field.indexOf(":")), field.substring(field.indexOf(":")+1));
+				map.put(field.substring(0,field.indexOf(":")).trim(), field.substring(field.indexOf(":")+1).trim());
 			}else{
 				map.put(field, "String");
 			}
