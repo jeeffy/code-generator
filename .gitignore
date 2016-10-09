@@ -1,0 +1,7 @@
+.*
+!.gitignore
+*.iml
+target/
+test-output/
+*.log
+bin/
