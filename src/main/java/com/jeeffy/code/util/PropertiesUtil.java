@@ -44,7 +44,7 @@ public class PropertiesUtil {
 			map.put("idType", getBeanFields().get(id));
 		}else{
 			map.put("id", "id");
-			map.put("idType", "Integer");
+			map.put("idType", getBeanFields().get("id"));
 		}
 		
 		return map;
@@ -71,7 +71,6 @@ public class PropertiesUtil {
 				map.put(field, "String");
 			}
 		}
-		
 		return map;
 	}
 	
