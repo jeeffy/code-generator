@@ -79,4 +79,14 @@ public class StringUtil {
 		s = toCamelCase(s);
 		return s.substring(0, 1).toUpperCase() + s.substring(1);
 	}
+	
+	public static String format(String string){
+		return toCamelCase(string);
+	}
+	
+	public static String removeLast(String str, String rm){
+		int last = str.lastIndexOf(rm);
+		String s = str.substring(0, last)+str.substring(last+rm.length());
+		return s;
+	}
 }

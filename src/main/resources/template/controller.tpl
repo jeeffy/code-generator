@@ -25,20 +25,26 @@ public class ${ClassName}Controller {
 	
 	@RequestMapping(method = RequestMethod.GET)
 	@ResponseBody
-    public List<${ClassName}> findAll(HttpServletRequest request){
-		return ${className}Service.findAll();
+    public List<${ClassName}> list(HttpServletRequest request){
+		return ${className}Service.getByMap(null);
     }
 	
 	@RequestMapping(value="/{${id}}", method = RequestMethod.GET)
 	@ResponseBody
     public ${ClassName} detail(@PathVariable ${idType} ${id}){
-		return ${className}Service.findOne(${id});
+		return ${className}Service.getById(${id});
     }
     
     @RequestMapping(method = RequestMethod.POST)
 	@ResponseBody
-    public ${ClassName} save(@RequestBody ${ClassName} ${className}){
-		return ${className}Service.save(${className});
+    public ${ClassName} create(@RequestBody ${ClassName} ${className}){
+		return ${className}Service.create(${className});
+    }
+
+    @RequestMapping(method = RequestMethod.PUT)
+	@ResponseBody
+    public ${ClassName} update(@RequestBody ${ClassName} ${className}){
+		return ${className}Service.update(${className});
     }
     
     @RequestMapping(value="/{${id}}", method = RequestMethod.DELETE)

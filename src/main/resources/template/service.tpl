@@ -1,36 +1,40 @@
 package ${packageName}.service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import ${packageName}.dao.${ClassName}Dao;
 import ${packageName}.bean.${ClassName};
+import ${packageName}.service.${ClassName}Service;
 
 @Service
 public class ${ClassName}Service {
     @Autowired
 	private ${ClassName}Dao ${className}Dao;
 	
-	public List<${ClassName}> findAll(){
-	    return ${className}Dao.findAll();
+	public List<${ClassName}> getByMap(Map<String,Object> map){
+	    return ${className}Dao.getByMap(map);
 	}
 	
-	public ${ClassName} findOne(${idType} ${id}){
-		return ${className}Dao.findOne(${id});
-	}
-
-	@Transactional
-	public ${ClassName} save(${ClassName} ${className}){
-		return ${className}Dao.save(${className});
+	public ${ClassName} getById(${idType} ${id}){
+		return ${className}Dao.getById(${id});
 	}
 	
-	@Transactional
+	public ${ClassName} create(${ClassName} ${className}){
+		${className}Dao.create(${className});
+		return ${className};
+	}
+	
+	public ${ClassName} update(${ClassName} ${className}){
+		${className}Dao.update(${className});
+		return ${className};
+	}
+	
 	public int delete(${idType} ${id}){
-		${className}Dao.delete(${id});
-		return 1;
+		return ${className}Dao.delete(${id});
 	}
-   
+    
 }

@@ -11,7 +11,7 @@ import ${packageName}.service.${ClassName}Service;
 import ${packageName}.bean.${ClassName};
 
 
-public class ${ClassName}ServiceTest extends BaseServiceTest{
+public class ${ClassName}ServiceTest {
     
 	private static ${idType} id = null;
 	
@@ -19,20 +19,20 @@ public class ${ClassName}ServiceTest extends BaseServiceTest{
 	${ClassName}Service ${className}Service;
 	
 	@Test
-	public void testGetList(){
-    	List<${ClassName}> list = ${className}Service.findAll();
+	public void testGetByMap(){
+    	List<${ClassName}> list = ${className}Service.getByMap(null);
 		Assert.assertNotNull(list);
 	}
 	
     @Test
-	public void testSave(){
+	public void testCreate(){
     	${ClassName} ${className} = new ${ClassName}();
-		${className}Service.save(${className});
+		${className}Service.create(${className});
 	}
     
     @Test
-    public void testFindOne(){
-    	${ClassName} ${className} = ${className}Service.findOne(id);
+    public void testGetById(){
+    	${ClassName} ${className} = ${className}Service.getById(id);
     	Assert.assertNotNull(${className});
     }
 

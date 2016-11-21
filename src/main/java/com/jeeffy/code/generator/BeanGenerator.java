@@ -17,7 +17,6 @@ public class BeanGenerator extends AbstractGenerator{
 		sb.append("package "+ PropertiesUtil.getPackage()+".bean;\n\n");
 		
 		sb.append(generateImport(fieldMap));
-		sb.append("\n@Entity\n@Table(name = \""+StringUtil.toUnderscoreCase(ClassName)+"\")");
 		sb.append("\npublic class "+ClassName+"{\n");
 		sb.append(generateFields(fieldMap));
 		sb.append(generateGetAndSetMethods(fieldMap));
@@ -28,11 +27,6 @@ public class BeanGenerator extends AbstractGenerator{
 	private static String generateImport(Map<String, String> fieldMap){
 		StringBuilder sb = new StringBuilder();
 		Set<String> set = new HashSet<String>();
-		
-		set.add("javax.persistence.Entity");
-		set.add("javax.persistence.GeneratedValue");
-		set.add("javax.persistence.Id");
-		set.add("javax.persistence.Table");
 		
 		Set<String> keySet = fieldMap.keySet();
 		for(String key : keySet){
@@ -57,12 +51,8 @@ public class BeanGenerator extends AbstractGenerator{
 		Set<String> keySet = map.keySet();
 		StringBuilder sb = new StringBuilder();
 		
-		String id = PropertiesUtil.getBeanId().get("id");
 		for(String field : keySet){
 			String fieldType = map.get(field);
-			if(id.equals(field)){
-				sb.append("\t@Id\n\t@GeneratedValue\n");
-			}
 			sb.append("\tprivate ").append(fieldType+" ").append(field+";\n");
 			
 		}

@@ -68,7 +68,7 @@ public class PropertiesUtil {
 			if(field.contains(":")){
 				map.put(field.substring(0,field.indexOf(":")).trim(), field.substring(field.indexOf(":")+1).trim());
 			}else{
-				map.put(field, "String");
+				map.put(field.trim(), "String");
 			}
 		}
 		return map;
@@ -76,11 +76,28 @@ public class PropertiesUtil {
 	
 	public static String getBeanName(){
 		String bean = prop.getProperty("bean.name");
-		if(bean!=null){
+		if(bean!=null && !"".equals(bean)){
 			bean = bean.trim();
 		}
 		bean = bean.substring(0, 1).toUpperCase()+bean.substring(1);
 		return bean;
 	}
 	
+	public static String getDbType(){
+		String type = prop.getProperty("db.type");
+		if(type!=null && !"".equals(type.trim())){
+			type = type.trim().toLowerCase();
+		}{
+			type = DBUtil.MYSQL;
+		}
+		return type;
+	}
+	
+	public static String getModule(){
+        String str = prop.getProperty("package");
+        if(str!=null){
+            str = str.trim().substring(str.lastIndexOf(".")+1);
+        }
+        return str;
+    }
 }
