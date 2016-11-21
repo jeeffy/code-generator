@@ -1,6 +1,6 @@
 # code-generator user manual
 
-generate java code(bean/dao/service/controller) by parameter
+generate java code(bean/dao/mapper/service/controller/test) by parameters
 
 1. config your parameters in generator.properties, paramters explain as follows
  * package[require]: basic package name
