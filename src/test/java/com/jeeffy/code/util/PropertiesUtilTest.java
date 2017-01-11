@@ -1,9 +1,9 @@
 package com.jeeffy.code.util;
 
-import java.util.Map;
-
 import org.junit.Assert;
 import org.junit.Test;
+
+import java.util.Map;
 
 public class PropertiesUtilTest {
 
@@ -13,4 +13,5 @@ public class PropertiesUtilTest {
 		System.out.println(map);
         Assert.assertNotNull(map);
 	}
+
 }

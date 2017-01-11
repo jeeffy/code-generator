@@ -13,16 +13,20 @@ public class Main {
 
 	public static void main(String[] args) {
 		DirectoryGenerator.generateDirectory();
+        if(PropertiesUtil.getBeanId().size()>0){
+            String beanName = PropertiesUtil.getBeanName();
 
-		String beanName = PropertiesUtil.getBeanName();
+            BeanGenerator.generateBean(beanName);
+            DaoGenerator.generateDao(beanName);
+            ServiceGenerator.generateService(beanName);
+            ControllerGenerator.generateController(beanName);
+            ServiceTestGenerator.generateJunit(beanName);
+            MapperGenerator.generateMapper(beanName);
 
-		BeanGenerator.generateBean(beanName);
-		DaoGenerator.generateDao(beanName);
-		ServiceGenerator.generateService(beanName);
-		ControllerGenerator.generateController(beanName);
-		ServiceTestGenerator.generateJunit(beanName);
-		MapperGenerator.generateMapper(beanName);
+            System.out.println(beanName + " has been generated.");
+        }else {
+            System.err.println("No id, ignore.");
+        }
 
-		System.out.println(beanName + " has been generated.");
 	}
 }
