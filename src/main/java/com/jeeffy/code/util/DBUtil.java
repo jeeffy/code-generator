@@ -19,22 +19,11 @@ public class DBUtil {
         }
     }
 
-	public static String getDatabaseInstance(){
-		String dbType = getDatabaseType();
-		String instance = null;
-		if("oracle".equals(dbType)){
-			try {
-				String jdbcUrl = prop.getProperty("jdbc.url");
-				if(jdbcUrl!=null){
-					instance = jdbcUrl.substring(jdbcUrl.lastIndexOf(":")+1).toUpperCase();
-				}
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		}
-		return instance;
-	}
-	public static String getDatabaseType(){
+    /**
+     * get db type from jdbc
+     * @return
+     */
+    public static String getDatabaseType(){
 		try {
 			String driverClassName = prop.getProperty("jdbc.driverClassName");
 			if(driverClassName.contains("mysql")){
@@ -47,7 +36,8 @@ public class DBUtil {
 		}
 		return null;
 	}
-	public static Connection getConnection(){
+
+	private static Connection getConnection(){
 		Connection connection = null;
 		try {
 			String driverClassName = prop.getProperty("jdbc.driverClassName");
@@ -61,18 +51,20 @@ public class DBUtil {
 		}
 		return connection;
 	}
-	public static DatabaseMetaData getDatabaseMetaData(){
-		Connection connection = getConnection();
+
+	private static DatabaseMetaData getDatabaseMetaData(){
+        Connection connection = getConnection();
 		DatabaseMetaData meta = null;
-		try {
+		try{
 			meta = connection.getMetaData();
 		} catch (SQLException e) {
 			throw new RuntimeException(e);
 		}
 		return meta;
 	}
+
 	public static List<String> getAllTables(){
-		List<String> tableList = new ArrayList<String>();
+		List<String> tableList = new ArrayList<>();
 		try {
 			DatabaseMetaData meta= getDatabaseMetaData();
 			ResultSet tableRet = null;
@@ -90,33 +82,8 @@ public class DBUtil {
 		return tableList;
 	}
 	
-	public static Map<String,String> getColumnNameTypeMap(String tableName){
-		Map<String,String> colMap = new LinkedHashMap<String,String>();
-		DatabaseMetaData meta= getDatabaseMetaData();
-		try {
-			ResultSet colRet = meta.getColumns(null, "%", tableName, "%");
-			while (colRet.next()) {
-				String columnName = colRet.getString("COLUMN_NAME");
-				int digits = colRet.getInt("DECIMAL_DIGITS");
-				int dataType = colRet.getInt("DATA_TYPE");
-				String columnType=null;
-				String typeName = colRet.getString("TYPE_NAME");
-				int columnSize = colRet.getInt("COLUMN_SIZE");
-				if("mysql".equals(getDatabaseType())){
-					columnType = getDataType(dataType,digits);
-				}else if("oracle".equals(getDatabaseType())){
-					columnType = getDataTypeForOracle(typeName,columnSize,digits);
-				}
-				colMap.put(columnName, columnType);
-			}
-		} catch (Exception e) {
-			throw new RuntimeException(e);
-		}
-		return colMap;
-	}
-	
-	public static Map<String,String> getFormatedColumnNameTypeMap(String tableName){
-		Map<String,String> colMap = new LinkedHashMap<String,String>();
+	public static Map<String,String> getFormattedColumnNameTypeMap(String tableName){
+		Map<String,String> colMap = new LinkedHashMap<>();
 		DatabaseMetaData meta= getDatabaseMetaData();
 		try {
 			ResultSet colRet = meta.getColumns(null, "%", tableName, "%");
@@ -140,36 +107,7 @@ public class DBUtil {
 		return colMap;
 	}
 	
-	public static List<String> getColumnNameList(String tableName){
-		List<String> list = new ArrayList<String>();
-		DatabaseMetaData meta= getDatabaseMetaData();
-		try {
-			ResultSet colRet = meta.getColumns(null, "%", tableName, "%");
-			while (colRet.next()) {
-				String columnName = colRet.getString("COLUMN_NAME");
-				list.add(columnName);
-			}
-		} catch (Exception e) {
-			throw new RuntimeException(e);
-		}
-		return list;
-	}
-	
-	public static List<String> getFormatedColumnNameList(String tableName){
-		List<String> list = new ArrayList<String>();
-		DatabaseMetaData meta= getDatabaseMetaData();
-		try {
-			ResultSet colRet = meta.getColumns(null, "%", tableName, "%");
-			while (colRet.next()) {
-				String columnName = colRet.getString("COLUMN_NAME");
-				list.add(StringUtil.format(columnName));
-			}
-		} catch (Exception e) {
-			throw new RuntimeException(e);
-		}
-		return list;
-	}
-	
+
 	/**
 	 * translate database type into java type
 	 * @param type
@@ -239,6 +177,22 @@ public class DBUtil {
         }
         return dataType;
    }
+
+    private static String getDatabaseInstance(){
+        String dbType = getDatabaseType();
+        String instance = null;
+        if(ORACLE.equals(dbType)){
+            try {
+                String jdbcUrl = prop.getProperty("jdbc.url");
+                if(jdbcUrl!=null){
+                    instance = jdbcUrl.substring(jdbcUrl.lastIndexOf(":")+1).toUpperCase();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        return instance;
+    }
 	/**
 	 * @param tableName
 	 * @return primary key if table contains one
@@ -249,7 +203,7 @@ public class DBUtil {
 			ResultSet pkRSet = getDatabaseMetaData().getPrimaryKeys(null, null, tableName);
 			while( pkRSet.next() ) { 
 				String primaryKey = pkRSet.getString("COLUMN_NAME");
-				String primaryKeyType = getColumnNameTypeMap(pkRSet.getString("TABLE_NAME")).get(primaryKey);
+				String primaryKeyType = getFormattedColumnNameTypeMap(pkRSet.getString("TABLE_NAME")).get(primaryKey);
                 map.put("id", primaryKey);
                 map.put("idType", primaryKeyType);
 			} 

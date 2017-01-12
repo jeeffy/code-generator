@@ -60,7 +60,7 @@ public class PropertiesUtil {
 	 */
 	public static Map<String, String> getBeanFields(String beanName){
         String tableName = StringUtil.toUnderscoreCase(beanName);
-        return DBUtil.getFormatedColumnNameTypeMap(tableName);
+        return DBUtil.getFormattedColumnNameTypeMap(tableName);
 	}
 	
 	public static String getBeanName(String beanName){
