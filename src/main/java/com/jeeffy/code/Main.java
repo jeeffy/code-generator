@@ -1,32 +1,30 @@
 package com.jeeffy.code;
 
-import com.jeeffy.code.generator.BeanGenerator;
-import com.jeeffy.code.generator.ControllerGenerator;
-import com.jeeffy.code.generator.DaoGenerator;
-import com.jeeffy.code.generator.DirectoryGenerator;
-import com.jeeffy.code.generator.MapperGenerator;
-import com.jeeffy.code.generator.ServiceGenerator;
-import com.jeeffy.code.generator.ServiceTestGenerator;
+import com.jeeffy.code.generator.*;
 import com.jeeffy.code.util.PropertiesUtil;
+
+import java.util.List;
 
 public class Main {
 
 	public static void main(String[] args) {
 		DirectoryGenerator.generateDirectory();
-        if(PropertiesUtil.getBeanId().size()>0){
-            String beanName = PropertiesUtil.getBeanName();
+        List<String> beans = PropertiesUtil.getBeans();
+        for(String beanName : beans){
+            if(PropertiesUtil.getBeanId(beanName).size() != 0){
+                BeanGenerator.generateBean(beanName);
+                DaoGenerator.generateDao(beanName);
+                ServiceGenerator.generateService(beanName);
+                ControllerGenerator.generateController(beanName);
+                ServiceTestGenerator.generateJunit(beanName);
+                MapperGenerator.generateMapper(beanName);
 
-            BeanGenerator.generateBean(beanName);
-            DaoGenerator.generateDao(beanName);
-            ServiceGenerator.generateService(beanName);
-            ControllerGenerator.generateController(beanName);
-            ServiceTestGenerator.generateJunit(beanName);
-            MapperGenerator.generateMapper(beanName);
-
-            System.out.println(beanName + " has been generated.");
-        }else {
-            System.err.println("No id, ignore.");
+                System.out.println(beanName + " has been generated.");
+            }else {
+                System.err.println(beanName + " has not id, ignore.");
+            }
         }
+
 
 	}
 }

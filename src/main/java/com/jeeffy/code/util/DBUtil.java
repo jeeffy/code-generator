@@ -1,18 +1,8 @@
 package com.jeeffy.code.util;
 
-import java.io.FileInputStream;
-import java.sql.Connection;
-import java.sql.DatabaseMetaData;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Types;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Properties;
+import java.io.InputStream;
+import java.sql.*;
+import java.util.*;
 
 public class DBUtil {
     public static final String MYSQL = "mysql";
@@ -22,8 +12,8 @@ public class DBUtil {
     static {
         prop = new Properties();
         try {
-            String path = PropertiesUtil.class.getProtectionDomain().getCodeSource().getLocation().getPath();
-            prop.load(new FileInputStream(path + "/jdbc.properties"));
+            InputStream stream = DBUtil.class.getResourceAsStream("/jdbc.properties");
+            prop.load(stream);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -254,9 +244,9 @@ public class DBUtil {
 	 * @return primary key if table contains one
 	 */
 	public static Map<String,String> getPrimaryKey(String tableName){
-		Map<String,String> map = new HashMap<String,String>();
+		Map<String,String> map = new HashMap<>();
 		try {
-			ResultSet pkRSet = getDatabaseMetaData().getPrimaryKeys(null, null, tableName); 
+			ResultSet pkRSet = getDatabaseMetaData().getPrimaryKeys(null, null, tableName);
 			while( pkRSet.next() ) { 
 				String primaryKey = pkRSet.getString("COLUMN_NAME");
 				String primaryKeyType = getColumnNameTypeMap(pkRSet.getString("TABLE_NAME")).get(primaryKey);

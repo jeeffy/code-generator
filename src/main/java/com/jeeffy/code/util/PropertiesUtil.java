@@ -1,9 +1,11 @@
 package com.jeeffy.code.util;
 
-import java.io.FileInputStream;
-import java.util.LinkedHashMap;
+import java.io.InputStream;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 import java.util.Properties;
+import java.util.stream.Collectors;
 
 
 public class PropertiesUtil {
@@ -12,19 +14,19 @@ public class PropertiesUtil {
 	static {
 		prop = new Properties();
 		try {
-			String path = PropertiesUtil.class.getProtectionDomain().getCodeSource().getLocation().getPath();
-			prop.load(new FileInputStream(path + "/generator.properties"));
+            InputStream stream = PropertiesUtil.class.getResourceAsStream("/generator.properties");
+            prop.load(stream);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
 	
 	public static String getPackage(){
-		String cgpackage = prop.getProperty("package");
-		if(cgpackage!=null){
-			cgpackage = cgpackage.trim();
+		String aPackage = prop.getProperty("package");
+		if(aPackage!=null){
+			aPackage = aPackage.trim();
 		}
-		return cgpackage;
+		return aPackage;
 	}
 	
 	public static String getLocation(){
@@ -35,89 +37,35 @@ public class PropertiesUtil {
 		return location;
 	}
 
-    private static String getTableName(){
-        String table = prop.getProperty("table.name");
-        if(table!=null){
-            table = table.trim();
+    public static List<String> getBeans() {
+        List<String> beans = null;
+        String tables = prop.getProperty("tables");
+        if(tables != null && "__all__".equals(tables.trim().toLowerCase())){
+            beans = DBUtil.getAllTables().stream().map(StringUtil::toCapitalizeCamelCase).collect(Collectors.toList());
+        }else if (tables != null && !"".equals(tables.trim())) {
+            tables = tables.trim();
+            beans = Arrays.stream(tables.split(","))
+                    .map(String::trim).map(StringUtil::toCapitalizeCamelCase).collect(Collectors.toList());
         }
-        return table;
+        return beans;
     }
 
-    private static boolean useDbGenerator(){
-        String flag = prop.getProperty("use.db.generator");
-        return Boolean.parseBoolean(flag);
-    }
-
-	public static Map<String, String> getBeanId(){
-	    if(useDbGenerator()){
-            return DBUtil.getPrimaryKey(getTableName());
-        }else{
-            Map<String, String> map = new LinkedHashMap<>();
-            String id = prop.getProperty("bean.id");
-            if(id!=null && !"".equals(id.trim())){
-                id = id.trim();
-                map.put("id", id);
-                map.put("idType", getBeanFields().get(id));
-            }else{
-                map.put("id", "id");
-                map.put("idType", getBeanFields().get("id"));
-            }
-
-            return map;
-        }
+	public static Map<String, String> getBeanId(String beanName){
+	    String tableName = StringUtil.toUnderscoreCase(beanName);
+        return DBUtil.getPrimaryKey(tableName);
 	}
 	
 	/**
 	 * @return map key is field name, value is field type
 	 */
-	public static Map<String, String> getBeanFields(){
-        if(useDbGenerator()){
-            return DBUtil.getFormatedColumnNameTypeMap(getTableName());
-        }else{
-            Map<String, String> map = new LinkedHashMap<>();
-            String fields = prop.getProperty("bean.fields");
-
-            //use default if bean.id is empty
-            String id = prop.getProperty("bean.id");
-            if(id==null || "".equals(id.trim())){
-                map.put("id", "Integer");
-            }
-
-            String[] fieldArr = fields.split(",");
-            for(String field : fieldArr){
-                if(field.contains(":")){
-                    map.put(field.substring(0,field.indexOf(":")).trim(), field.substring(field.indexOf(":")+1).trim());
-                }else{
-                    map.put(field.trim(), "String");
-                }
-            }
-            return map;
-        }
-
+	public static Map<String, String> getBeanFields(String beanName){
+        String tableName = StringUtil.toUnderscoreCase(beanName);
+        return DBUtil.getFormatedColumnNameTypeMap(tableName);
 	}
 	
-	public static String getBeanName(){
-        if(useDbGenerator()){
-            return StringUtil.format(getTableName());
-        }else{
-            String bean = prop.getProperty("bean.name");
-            if(bean!=null && !"".equals(bean)){
-                bean = bean.trim();
-            }
-            bean = bean.substring(0, 1).toUpperCase()+bean.substring(1);
-            return bean;
-        }
-
-	}
-	
-	public static String getDbType(){
-		String type = prop.getProperty("db.type");
-		if(type!=null && !"".equals(type.trim())){
-			type = type.trim().toLowerCase();
-		}{
-			type = "mysql";
-		}
-		return type;
+	public static String getBeanName(String beanName){
+        String tableName = StringUtil.toUnderscoreCase(beanName);
+        return StringUtil.format(tableName);
 	}
 	
 	public static String getModule(){

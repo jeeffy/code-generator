@@ -1,15 +1,10 @@
 package com.jeeffy.code.generator;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.util.Map;
-
 import com.jeeffy.code.util.PropertiesUtil;
 import com.jeeffy.code.util.StringUtil;
+
+import java.io.*;
+import java.util.Map;
 
 public abstract class AbstractGenerator {
 
@@ -27,15 +22,14 @@ public abstract class AbstractGenerator {
     protected static String generate(String template, String beanName) {
 		String content = getTemplateContent(template);
 
-		Map<String,String> idMap = PropertiesUtil.getBeanId();
+		Map<String,String> idMap = PropertiesUtil.getBeanId(beanName);
 		String replacedContent = null;
 		String ClassName = beanName;
 		String className = StringUtil.firstLowerCase(beanName);
 		String packageName = PropertiesUtil.getPackage();
 		String idType = idMap.get("idType");
 		String id = idMap.get("id");
-        
-		replacedContent = content.replace(TPL.ClassName, ClassName)
+        replacedContent = content.replace(TPL.ClassName, ClassName)
 				.replace(TPL.className, className)
 				.replace(TPL.packageName, packageName)
 				.replace(TPL.idType, idType)

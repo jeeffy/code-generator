@@ -1,12 +1,12 @@
 package com.jeeffy.code.generator;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-
 import com.jeeffy.code.util.DBUtil;
 import com.jeeffy.code.util.PropertiesUtil;
 import com.jeeffy.code.util.StringUtil;
+
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 public class MapperGenerator extends AbstractGenerator{
 
@@ -14,8 +14,8 @@ public class MapperGenerator extends AbstractGenerator{
 		
 		String tableName = StringUtil.toUnderscoreCase(beanName);
 		String template = "mapper.tpl";
-		List<String> columnList = getColumnNameList();
-		Map<String,String> map = PropertiesUtil.getBeanId();
+		List<String> columnList = getColumnNameList(beanName);
+		Map<String,String> map = PropertiesUtil.getBeanId(beanName);
 		String primaryKey = StringUtil.toUnderscoreCase(map.get("id"));
 		String primaryKeyType = getPrimaryKeyType(map.get("idType"));
 		String content = generate(template,beanName);
@@ -33,7 +33,7 @@ public class MapperGenerator extends AbstractGenerator{
             
         }
         
-        writeContentToFile(content, DirectoryGenerator.getPackageDirectory("mapper") + PropertiesUtil.getBeanName() + "DaoMapper.xml");
+        writeContentToFile(content, DirectoryGenerator.getPackageDirectory("mapper") + PropertiesUtil.getBeanName(beanName) + "DaoMapper.xml");
 	}
 
     private static String generateQueryConditionSql(String content, List<String> columnList) {
@@ -166,13 +166,10 @@ public class MapperGenerator extends AbstractGenerator{
 		return newContent;
 	}
 	
-	private static List<String> getColumnNameList(){
-		Map<String, String> fieldsMap = PropertiesUtil.getBeanFields();
-		List<String> list = new ArrayList<>();
-		for(String field : fieldsMap.keySet()){
-			list.add(StringUtil.toUnderscoreCase(field));
-		}
-		return list;
+	private static List<String> getColumnNameList(String beanName){
+		Map<String, String> fieldsMap = PropertiesUtil.getBeanFields(beanName);
+		List<String> list = fieldsMap.keySet().stream().map(StringUtil::toUnderscoreCase).collect(Collectors.toList());
+        return list;
 	}
 	
 	private static String getPrimaryKeyType(String idType){

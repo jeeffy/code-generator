@@ -1,17 +1,17 @@
 package com.jeeffy.code.generator;
 
+import com.jeeffy.code.util.PropertiesUtil;
+import com.jeeffy.code.util.StringUtil;
+
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
-
-import com.jeeffy.code.util.PropertiesUtil;
-import com.jeeffy.code.util.StringUtil;
 
 
 public class BeanGenerator extends AbstractGenerator{
 
 	public static void generateBean(String beanName) {
-		Map<String, String> fieldMap = PropertiesUtil.getBeanFields();
+		Map<String, String> fieldMap = PropertiesUtil.getBeanFields(beanName);
 		String ClassName = beanName;
 		StringBuilder sb = new StringBuilder();
 		sb.append("package "+ PropertiesUtil.getPackage()+".bean;\n\n");
