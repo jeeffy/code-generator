@@ -1,12 +1,10 @@
-package com.jeeffy.code.generator;
+package com.jeeffy.code.util;
 
 
 import java.io.File;
 
-import com.jeeffy.code.util.PropertiesUtil;
-
-public class DirectoryGenerator {
-	public static void generateDirectory(){
+public class FileUtil {
+	public static void mkdirs(){
 		String location = PropertiesUtil.getLocation();
 		String packageDir = "/" + PropertiesUtil.getPackage().replace(".", "/");
 		

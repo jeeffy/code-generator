@@ -16,7 +16,7 @@ public class PropertiesUtilTest {
 	}
 
     @Test
-    public void testGetBeans(){
+    public void testGetBeans() throws Exception {
         List<String> list = PropertiesUtil.getBeans();
         System.out.println(list);
         Assert.assertNotNull(list);

@@ -1,14 +1,17 @@
 package com.jeeffy.code.generator;
 
+import com.jeeffy.code.util.FileUtil;
+
 public class ServiceTestGenerator extends AbstractGenerator{
 
-	public static void generateJunit(String beanName) {
+	public void generate(String beanName) {
 		generateDaoTest(beanName);
 	}
-	private static void generateDaoTest(String beanName) {
+
+	private void generateDaoTest(String beanName) {
 		String template = "service-test.tpl";
 		String content = generate(template,beanName);
 		
-		writeContentToFile(content, DirectoryGenerator.getPackageDirectory("service-test") + beanName + "ServiceTest.java");
+		writeContentToFile(content, FileUtil.getPackageDirectory("service-test") + beanName + "ServiceTest.java");
 	}
 }

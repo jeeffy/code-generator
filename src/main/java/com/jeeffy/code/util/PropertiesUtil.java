@@ -37,7 +37,7 @@ public class PropertiesUtil {
 		return location;
 	}
 
-    public static List<String> getBeans() {
+    public static List<String> getBeans() throws Exception {
         List<String> beans = null;
         String tables = prop.getProperty("tables");
         if(tables != null && "__all__".equals(tables.trim().toLowerCase())){

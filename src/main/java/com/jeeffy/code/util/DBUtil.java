@@ -3,11 +3,13 @@ package com.jeeffy.code.util;
 import java.io.InputStream;
 import java.sql.*;
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class DBUtil {
     public static final String MYSQL = "mysql";
     public static final String ORACLE = "oracle";
     private static Properties prop;
+    private static final Map<String, Connection> cache = new ConcurrentHashMap<>();
 
     static {
         prop = new Properties();
@@ -37,56 +39,48 @@ public class DBUtil {
 		return null;
 	}
 
-	private static Connection getConnection(){
+	private static Connection getConnection() throws Exception {
 		Connection connection = null;
-		try {
-			String driverClassName = prop.getProperty("jdbc.driverClassName");
-			String url = prop.getProperty("jdbc.url");
-			String userName = prop.getProperty("jdbc.username");
-			String password = prop.getProperty("jdbc.password");
-			Class.forName(driverClassName);
-			connection = DriverManager.getConnection(url, userName, password);
-		} catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+        if(cache.get("connection")==null){
+            String driverClassName = prop.getProperty("jdbc.driverClassName");
+            String url = prop.getProperty("jdbc.url");
+            String userName = prop.getProperty("jdbc.username");
+            String password = prop.getProperty("jdbc.password");
+            Class.forName(driverClassName);
+            connection = DriverManager.getConnection(url, userName, password);
+            cache.put("connection", connection);
+        }else{
+            connection = cache.get("connection");
+        }
+
 		return connection;
 	}
 
-	private static DatabaseMetaData getDatabaseMetaData(){
-        Connection connection = getConnection();
-		DatabaseMetaData meta = null;
-		try{
-			meta = connection.getMetaData();
-		} catch (SQLException e) {
-			throw new RuntimeException(e);
-		}
-		return meta;
-	}
-
-	public static List<String> getAllTables(){
+	public static List<String> getAllTables() throws Exception {
 		List<String> tableList = new ArrayList<>();
+        ResultSet rs = null;
 		try {
-			DatabaseMetaData meta= getDatabaseMetaData();
-			ResultSet tableRet = null;
+			DatabaseMetaData meta= getConnection().getMetaData();
+
 			if("mysql".equals(getDatabaseType())){
-				tableRet = meta.getTables(null, "%","%",new String[]{"TABLE"});
+				rs = meta.getTables(null, "%","%",new String[]{"TABLE"});
 			}else if("oracle".equals(getDatabaseType())){
-				tableRet = meta.getTables(null, getDatabaseInstance(),"%",new String[]{"TABLE"});
+				rs = meta.getTables(null, getDatabaseInstance(),"%",new String[]{"TABLE"});
 			}
-			while(tableRet.next()){
-				tableList.add(tableRet.getString("TABLE_NAME"));
+			while(rs.next()){
+				tableList.add(rs.getString("TABLE_NAME"));
 			}
-		} catch (Exception e) {
-			throw new RuntimeException(e);
-		}
-		return tableList;
+		}finally {
+            if(rs!=null && !rs.isClosed()){
+                rs.close();
+            }
+        }
+        return tableList;
 	}
 	
 	public static Map<String,String> getFormattedColumnNameTypeMap(String tableName){
 		Map<String,String> colMap = new LinkedHashMap<>();
-		DatabaseMetaData meta= getDatabaseMetaData();
-		try {
-			ResultSet colRet = meta.getColumns(null, "%", tableName, "%");
+		try(ResultSet colRet = getConnection().getMetaData().getColumns(null, "%", tableName, "%")) {
 			while (colRet.next()) {
 				String columnName = colRet.getString("COLUMN_NAME");
 				int digits = colRet.getInt("DECIMAL_DIGITS");
@@ -199,9 +193,8 @@ public class DBUtil {
 	 */
 	public static Map<String,String> getPrimaryKey(String tableName){
 		Map<String,String> map = new HashMap<>();
-		try {
-			ResultSet pkRSet = getDatabaseMetaData().getPrimaryKeys(null, null, tableName);
-			while( pkRSet.next() ) { 
+		try(ResultSet pkRSet = getConnection().getMetaData().getPrimaryKeys(null, null, tableName)) {
+			while( pkRSet.next() ) {
 				String primaryKey = pkRSet.getString("COLUMN_NAME");
 				String primaryKeyType = getFormattedColumnNameTypeMap(pkRSet.getString("TABLE_NAME")).get(primaryKey);
                 map.put("id", primaryKey);

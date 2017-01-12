@@ -1,6 +1,7 @@
 package com.jeeffy.code.generator;
 
 import com.jeeffy.code.util.DBUtil;
+import com.jeeffy.code.util.FileUtil;
 import com.jeeffy.code.util.PropertiesUtil;
 import com.jeeffy.code.util.StringUtil;
 
@@ -10,7 +11,7 @@ import java.util.stream.Collectors;
 
 public class MapperGenerator extends AbstractGenerator{
 
-	public static void generateMapper(String beanName) {
+	public void generate(String beanName) {
 		
 		String tableName = StringUtil.toUnderscoreCase(beanName);
 		String template = "mapper.tpl";
@@ -33,10 +34,10 @@ public class MapperGenerator extends AbstractGenerator{
             
         }
         
-        writeContentToFile(content, DirectoryGenerator.getPackageDirectory("mapper") + PropertiesUtil.getBeanName(beanName) + "DaoMapper.xml");
+        writeContentToFile(content, FileUtil.getPackageDirectory("mapper") + PropertiesUtil.getBeanName(beanName) + "DaoMapper.xml");
 	}
 
-    private static String generateQueryConditionSql(String content, List<String> columnList) {
+    private String generateQueryConditionSql(String content, List<String> columnList) {
         StringBuilder sb = new StringBuilder();
         for(String col : columnList){
             String field = StringUtil.format(col);
@@ -53,7 +54,7 @@ public class MapperGenerator extends AbstractGenerator{
         return newContent;
     }
 
-    private static String generateResultMap(String content,String primaryKey, List<String> columnList){
+    private String generateResultMap(String content,String primaryKey, List<String> columnList){
 		StringBuilder sb = new StringBuilder();
 		for(String col : columnList){
 			String field = StringUtil.format(col);
@@ -67,21 +68,21 @@ public class MapperGenerator extends AbstractGenerator{
 		String newContent = content.replace(StringUtil.wrapper("resultMap"), sb.toString());
 		return newContent;
 	}
-	private static String generateSelectListSql(String content, String tableName){
+	private String generateSelectListSql(String content, String tableName){
 		StringBuilder sb = new StringBuilder();
 		sb.append("SELECT * FROM ").append(tableName).append("\n");
         sb.append("\t\t<include refid=\"queryCondition\" />");
 		String newContent = content.replace(StringUtil.wrapper("selectListSql"), sb.toString());
 		return newContent;
 	}
-	private static String generateSelectSql(String content, String tableName, String primaryKey){
+	private String generateSelectSql(String content, String tableName, String primaryKey){
 		StringBuilder sb = new StringBuilder();
 		sb.append("SELECT * FROM ").append(tableName).append(" WHERE ")
 		  .append(primaryKey).append(" =#{").append(StringUtil.format(primaryKey)).append("}");
 		String newContent = content.replace(StringUtil.wrapper("selectSql"), sb.toString());
 		return newContent;
 	}
-	private static String generateInsertSql(String content, String tableName, List<String> columnList){
+	private String generateInsertSql(String content, String tableName, List<String> columnList){
 		StringBuilder sb = new StringBuilder();
 		sb.append("INSERT INTO ").append(tableName).append("(\n");
 		for(int i=0;i<columnList.size();i++){
@@ -112,7 +113,7 @@ public class MapperGenerator extends AbstractGenerator{
 		newContent = StringUtil.removeLast(newContent, ",");
 		return newContent;
 	}
-	private static String generateUpdateSql(String content, String tableName, String primaryKey, List<String> columnList){
+	private String generateUpdateSql(String content, String tableName, String primaryKey, List<String> columnList){
 		StringBuilder sb = new StringBuilder();
 		sb.append("UPDATE ").append(tableName).append(" SET\n");
 		for(int i=0;i<columnList.size();i++){
@@ -143,14 +144,14 @@ public class MapperGenerator extends AbstractGenerator{
 		newContent = StringUtil.removeLast(newContent, ",");
 		return newContent;
 	}
-	private static String generateDeleteSql(String content, String tableName, String primaryKey){
+	private String generateDeleteSql(String content, String tableName, String primaryKey){
 		StringBuilder sb = new StringBuilder();
 		sb.append("DELETE FROM ").append(tableName).append(" WHERE ")
 		  .append(primaryKey).append(" = #{").append(StringUtil.format(primaryKey)).append("}");
 		String newContent = content.replace(StringUtil.wrapper("deleteSql"), sb.toString());
 		return newContent;
 	}
-	private static String generateInsertPk(String content, String primaryKey, String primaryKeyType){
+	private String generateInsertPk(String content, String primaryKey, String primaryKeyType){
 		StringBuilder sb = new StringBuilder();
 		String dbType = DBUtil.getDatabaseType();
 		if(DBUtil.MYSQL.equals(dbType)){
@@ -166,13 +167,13 @@ public class MapperGenerator extends AbstractGenerator{
 		return newContent;
 	}
 	
-	private static List<String> getColumnNameList(String beanName){
+	private List<String> getColumnNameList(String beanName){
 		Map<String, String> fieldsMap = PropertiesUtil.getBeanFields(beanName);
 		List<String> list = fieldsMap.keySet().stream().map(StringUtil::toUnderscoreCase).collect(Collectors.toList());
         return list;
 	}
 	
-	private static String getPrimaryKeyType(String idType){
+	private String getPrimaryKeyType(String idType){
 		if("Integer".equals(idType)){
 			return "int";
 		}else{
@@ -180,7 +181,7 @@ public class MapperGenerator extends AbstractGenerator{
 		}
 	}
 	
-	private static String generatePkType(String content, String primaryKeyType){
+	private String generatePkType(String content, String primaryKeyType){
 		String newContent = content.replace(StringUtil.wrapper("pkType"), primaryKeyType);
 		return newContent;
 	}

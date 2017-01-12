@@ -19,8 +19,10 @@ public abstract class AbstractGenerator {
         String id = StringUtil.wrapper("id");
     }
 
-    protected static String generate(String template, String beanName) {
-		String content = getTemplateContent(template);
+    protected abstract void generate(String beanName);
+
+    protected String generate(String template, String beanName) {
+		String content = readTemplateContent(template);
 
 		Map<String,String> idMap = PropertiesUtil.getBeanId(beanName);
 		String replacedContent = null;
@@ -38,32 +40,26 @@ public abstract class AbstractGenerator {
 		return replacedContent;
 	}
     
-    private static String getTemplateContent(String template){
-		String path = PropertiesUtil.class.getProtectionDomain().getCodeSource().getLocation().getPath();
-		File file = new File(path+"/template/"+template);
-		String str = read(file);
-		return str;
+    private String readTemplateContent(String template){
+		InputStream stream = AbstractGenerator.class.getResourceAsStream("/template/"+template);
+        StringBuilder content = new StringBuilder();
+        String line = null;
+        try(BufferedReader reader = new BufferedReader(new InputStreamReader(stream))) {
+            int i = 0;
+            while ((line = reader.readLine()) != null) {
+                if (i != 0) {
+                    content.append('\n');
+                }
+                content.append(line);
+                i++;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return content.toString();
 	}
     
-    private static String read(File file) {
-		StringBuffer res = new StringBuffer();
-		String line = null;
-		try(BufferedReader reader = new BufferedReader(new FileReader(file))) {
-			int i = 0;
-			while ((line = reader.readLine()) != null) {
-				if (i != 0) {
-					res.append('\n');
-				}
-				res.append(line);
-				i++;
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return res.toString();
-	}
-    
-    protected static boolean writeContentToFile(String content, String path) {
+    protected boolean writeContentToFile(String content, String path) {
 		try(BufferedWriter writer = new BufferedWriter(new FileWriter(new File(path)))){
 			writer.write(content);
 			return true;

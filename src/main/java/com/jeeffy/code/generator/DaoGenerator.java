@@ -1,11 +1,13 @@
 package com.jeeffy.code.generator;
 
+import com.jeeffy.code.util.FileUtil;
+
 public class DaoGenerator extends AbstractGenerator{
 
-	public static void generateDao(String beanName) {
+	public void generate(String beanName) {
 		String template = "dao.tpl";
 		String content = generate(template,beanName);
 		
-		writeContentToFile(content, DirectoryGenerator.getPackageDirectory("dao") + beanName + "Dao.java");
+		writeContentToFile(content, FileUtil.getPackageDirectory("dao") + beanName + "Dao.java");
 	}
 }

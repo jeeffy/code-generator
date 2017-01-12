@@ -1,11 +1,13 @@
 package com.jeeffy.code.generator;
 
+import com.jeeffy.code.util.FileUtil;
+
 public class ServiceGenerator extends AbstractGenerator{
 
-	public static void generateService(String beanName) {
+	public void generate(String beanName) {
 		String template = "service.tpl";
 		String content = generate(template,beanName);
 		
-		writeContentToFile(content, DirectoryGenerator.getPackageDirectory("service") + beanName + "Service.java");
+		writeContentToFile(content, FileUtil.getPackageDirectory("service") + beanName + "Service.java");
 	}
 }

@@ -23,7 +23,7 @@ public class DBUtilTest {
     }
 
     @Test
-    public void testGetTables(){
+    public void testGetTables() throws Exception {
         List<String> list = DBUtil.getAllTables();
         System.out.println(list);
     }

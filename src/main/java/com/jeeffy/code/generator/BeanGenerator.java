@@ -1,5 +1,6 @@
 package com.jeeffy.code.generator;
 
+import com.jeeffy.code.util.FileUtil;
 import com.jeeffy.code.util.PropertiesUtil;
 import com.jeeffy.code.util.StringUtil;
 
@@ -10,7 +11,7 @@ import java.util.Set;
 
 public class BeanGenerator extends AbstractGenerator{
 
-	public static void generateBean(String beanName) {
+	public void generate(String beanName) {
 		Map<String, String> fieldMap = PropertiesUtil.getBeanFields(beanName);
 		String ClassName = beanName;
 		StringBuilder sb = new StringBuilder();
@@ -21,10 +22,10 @@ public class BeanGenerator extends AbstractGenerator{
 		sb.append(generateFields(fieldMap));
 		sb.append(generateGetAndSetMethods(fieldMap));
 		sb.append("}");
-		writeContentToFile(sb.toString(), DirectoryGenerator.getPackageDirectory("bean") + beanName + ".java");
+		writeContentToFile(sb.toString(), FileUtil.getPackageDirectory("bean") + beanName + ".java");
 	}
 	
-	private static String generateImport(Map<String, String> fieldMap){
+	private String generateImport(Map<String, String> fieldMap){
 		StringBuilder sb = new StringBuilder();
 		Set<String> set = new HashSet<String>();
 		
@@ -47,7 +48,7 @@ public class BeanGenerator extends AbstractGenerator{
 		return sb.toString();
 	}
 	
-	private static String generateFields(Map<String, String> map) {
+	private String generateFields(Map<String, String> map) {
 		Set<String> keySet = map.keySet();
 		StringBuilder sb = new StringBuilder();
 		
@@ -60,7 +61,7 @@ public class BeanGenerator extends AbstractGenerator{
 		return sb.toString();
 	}
 	
-	private static String generateGetAndSetMethods(Map<String, String> map) {
+	private String generateGetAndSetMethods(Map<String, String> map) {
 		Set<String> keySet = map.keySet();
 		StringBuilder sb = new StringBuilder();
 		for(String key : keySet){
@@ -75,4 +76,5 @@ public class BeanGenerator extends AbstractGenerator{
 		}
 		return sb.toString();
 	}
+
 }
