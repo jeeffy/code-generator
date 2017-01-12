@@ -2,7 +2,7 @@ package com.jeeffy.code.generator;
 
 import com.jeeffy.code.util.FileUtil;
 
-public class ServiceGenerator extends AbstractGenerator{
+public class ServiceGenerator extends Generator {
 
 	public void generate(String beanName) {
 		String template = "service.tpl";

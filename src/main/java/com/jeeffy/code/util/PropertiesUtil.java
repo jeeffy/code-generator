@@ -63,11 +63,6 @@ public class PropertiesUtil {
         return DBUtil.getFormattedColumnNameTypeMap(tableName);
 	}
 	
-	public static String getBeanName(String beanName){
-        String tableName = StringUtil.toUnderscoreCase(beanName);
-        return StringUtil.format(tableName);
-	}
-	
 	public static String getModule(){
         String str = prop.getProperty("package");
         if(str!=null){

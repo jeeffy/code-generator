@@ -2,7 +2,7 @@ package com.jeeffy.code.generator;
 
 import com.jeeffy.code.util.FileUtil;
 
-public class DaoGenerator extends AbstractGenerator{
+public class DaoGenerator extends Generator {
 
 	public void generate(String beanName) {
 		String template = "dao.tpl";

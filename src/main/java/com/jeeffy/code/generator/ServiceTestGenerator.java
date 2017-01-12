@@ -2,7 +2,7 @@ package com.jeeffy.code.generator;
 
 import com.jeeffy.code.util.FileUtil;
 
-public class ServiceTestGenerator extends AbstractGenerator{
+public class ServiceTestGenerator extends Generator {
 
 	public void generate(String beanName) {
 		generateDaoTest(beanName);

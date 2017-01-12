@@ -6,7 +6,7 @@ import com.jeeffy.code.util.StringUtil;
 import java.io.*;
 import java.util.Map;
 
-public abstract class AbstractGenerator {
+public abstract class Generator {
 
     /**
      * basic template
@@ -40,8 +40,18 @@ public abstract class AbstractGenerator {
 		return replacedContent;
 	}
     
+    protected boolean writeContentToFile(String content, String path) {
+		try(BufferedWriter writer = new BufferedWriter(new FileWriter(new File(path)))){
+			writer.write(content);
+			return true;
+		} catch (IOException e) {
+			e.printStackTrace();
+			return false;
+		}
+	}
+
     private String readTemplateContent(String template){
-		InputStream stream = AbstractGenerator.class.getResourceAsStream("/template/"+template);
+        InputStream stream = Generator.class.getResourceAsStream("/template/"+template);
         StringBuilder content = new StringBuilder();
         String line = null;
         try(BufferedReader reader = new BufferedReader(new InputStreamReader(stream))) {
@@ -57,15 +67,5 @@ public abstract class AbstractGenerator {
             e.printStackTrace();
         }
         return content.toString();
-	}
-    
-    protected boolean writeContentToFile(String content, String path) {
-		try(BufferedWriter writer = new BufferedWriter(new FileWriter(new File(path)))){
-			writer.write(content);
-			return true;
-		} catch (IOException e) {
-			e.printStackTrace();
-			return false;
-		}
-	}
+    }
 }

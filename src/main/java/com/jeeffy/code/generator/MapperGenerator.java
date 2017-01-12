@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-public class MapperGenerator extends AbstractGenerator{
+public class MapperGenerator extends Generator {
 
 	public void generate(String beanName) {
 		
@@ -34,7 +34,7 @@ public class MapperGenerator extends AbstractGenerator{
             
         }
         
-        writeContentToFile(content, FileUtil.getPackageDirectory("mapper") + PropertiesUtil.getBeanName(beanName) + "DaoMapper.xml");
+        writeContentToFile(content, FileUtil.getPackageDirectory("mapper") + beanName + "DaoMapper.xml");
 	}
 
     private String generateQueryConditionSql(String content, List<String> columnList) {

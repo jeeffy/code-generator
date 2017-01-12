@@ -10,16 +10,17 @@ public class Main {
 
 	public static void main(String[] args) throws Exception {
 		FileUtil.mkdirs();
+        GeneratorGroup.add(new BeanGenerator());
+        GeneratorGroup.add(new DaoGenerator());
+        GeneratorGroup.add(new ServiceGenerator());
+        GeneratorGroup.add(new ControllerGenerator());
+        GeneratorGroup.add(new ServiceTestGenerator());
+        GeneratorGroup.add(new MapperGenerator());
+
         List<String> beans = PropertiesUtil.getBeans();
         for(String beanName : beans){
             if(PropertiesUtil.getBeanId(beanName).size() != 0){
-                new BeanGenerator().generate(beanName);
-                new DaoGenerator().generate(beanName);
-                new ServiceGenerator().generate(beanName);
-                new ControllerGenerator().generate(beanName);
-                new ServiceTestGenerator().generate(beanName);
-                new MapperGenerator().generate(beanName);
-
+                GeneratorGroup.run(beanName);
                 System.out.println(beanName + " has been generated.");
             }else {
                 System.err.println(beanName + " has not id, ignore.");

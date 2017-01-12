@@ -9,7 +9,7 @@ import java.util.Map;
 import java.util.Set;
 
 
-public class BeanGenerator extends AbstractGenerator{
+public class BeanGenerator extends Generator {
 
 	public void generate(String beanName) {
 		Map<String, String> fieldMap = PropertiesUtil.getBeanFields(beanName);
