@@ -1,9 +1,6 @@
 package ${packageName}.service;
 
 import java.util.List;
-
-import org.junit.Assert;
-
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -22,7 +19,7 @@ public class ${ClassName}ServiceTest extends BaseTest{
 	@Test
 	public void testGetByMap(){
     	List<${ClassName}> list = ${className}Service.getByMap(null);
-		Assert.assertNotNull(list);
+		assertNotNull(list);
 	}
 	
     @Test
@@ -34,7 +31,7 @@ public class ${ClassName}ServiceTest extends BaseTest{
     @Test
     public void testGetById(){
     	${ClassName} ${className} = ${className}Service.getById(id);
-    	Assert.assertNotNull(${className});
+    	assertNotNull(${className});
     }
 
     @Test
