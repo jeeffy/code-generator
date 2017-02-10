@@ -7,11 +7,12 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import ${packageName}.BaseTest;
 import ${packageName}.service.${ClassName}Service;
 import ${packageName}.bean.${ClassName};
 
 
-public class ${ClassName}ServiceTest {
+public class ${ClassName}ServiceTest extends BaseTest{
     
 	private static ${idType} id = null;
 	
