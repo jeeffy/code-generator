@@ -89,10 +89,10 @@ public class BeanGenerator extends Generator {
         for(String field : keySet){
             if(isFirst){
                 sb.append("\t\t\t\""+field+"=\" + "+field+" +\n");
+                isFirst = false;
             }else{
                 sb.append("\t\t\t\", "+field+"=\" + "+field+" +\n");
             }
-            isFirst = false;
         }
         sb.append("\t\t\t'}';\n");
         sb.append("\t\t}\n");
