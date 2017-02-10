@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import ${packageName}.bean.${ClassName};
 import ${packageName}.service.${ClassName}Service;
 
-@RequestMapping(value="/${className}s")
+@RequestMapping(value = "/${className}s")
 @RestController
 public class ${ClassName}Controller {
 	
@@ -24,27 +24,27 @@ public class ${ClassName}Controller {
 	
 	
 	@RequestMapping(method = RequestMethod.GET)
-    public List<${ClassName}> list(HttpServletRequest request){
+    public List<${ClassName}> list(HttpServletRequest request) {
 		return ${className}Service.getByMap(null);
     }
 	
-	@RequestMapping(value="/{${id}}", method = RequestMethod.GET)
-    public ${ClassName} detail(@PathVariable ${idType} ${id}){
+	@RequestMapping(value = "/{${id}}", method = RequestMethod.GET)
+    public ${ClassName} detail(@PathVariable ${idType} ${id}) {
 		return ${className}Service.getById(${id});
     }
     
     @RequestMapping(method = RequestMethod.POST)
-    public ${ClassName} create(@RequestBody ${ClassName} ${className}){
+    public ${ClassName} create(@RequestBody ${ClassName} ${className}) {
 		return ${className}Service.create(${className});
     }
 
     @RequestMapping(method = RequestMethod.PUT)
-    public ${ClassName} update(@RequestBody ${ClassName} ${className}){
+    public ${ClassName} update(@RequestBody ${ClassName} ${className}) {
 		return ${className}Service.update(${className});
     }
     
-    @RequestMapping(value="/{${id}}", method = RequestMethod.DELETE)
-    public int delete(@PathVariable ${idType} ${id}){
+    @RequestMapping(value = "/{${id}}", method = RequestMethod.DELETE)
+    public int delete(@PathVariable ${idType} ${id}) {
 		return ${className}Service.delete(${id});
     }
     
