@@ -18,7 +18,7 @@ public class BeanGenerator extends Generator {
 		sb.append("package "+ PropertiesUtil.getPackage()+".bean;\n\n");
 		
 		sb.append(generateImport(fieldMap));
-		sb.append("\npublic class "+ClassName+"{\n");
+		sb.append("\npublic class "+ClassName+" {\n");
 		sb.append(generateFields(fieldMap));
 		sb.append(generateGetAndSetMethods(fieldMap));
 		sb.append(generateToString(beanName, fieldMap));
