@@ -115,26 +115,30 @@ public class MapperGenerator extends Generator {
 	}
 	private String generateUpdateSql(String content, String tableName, String primaryKey, List<String> columnList){
 		StringBuilder sb = new StringBuilder();
-		sb.append("UPDATE ").append(tableName).append(" SET\n");
+		sb.append("UPDATE ").append(tableName).append(" \n\t\t<SET>\n");
 		for(int i=0;i<columnList.size();i++){
 			String col = columnList.get(i);
 			String field = StringUtil.format(col);
 			if(!primaryKey.equals(col)&&!("createTime").equals(field)&&!("createBy").equals(field)){
 				String dbType = DBUtil.getDatabaseType();
 				if("version".equals(field)) {
-					sb.append("\t\t\t").append(col).append(" = version + 1,\n");
-				}else if("updateTime".equals(field)){
-					if(DBUtil.MYSQL.equals(dbType)){
-						sb.append("\t\t\t").append(col).append(" = NOW(),\n");
-					}else if(DBUtil.ORACLE.equals(dbType)){
-						sb.append("\t\t\t").append(col).append(" = SYSDATE,\n");
+					sb.append("\t\t\t\t").append(col).append(" = version + 1,\n");
+				}else {
+					sb.append("\t\t\t<if test=\"" + field + " != null and " + field + " != ''\">\n");
+					if ("updateTime".equals(field)) {
+						if (DBUtil.MYSQL.equals(dbType)) {
+							sb.append("\t\t\t\t").append(col).append(" = NOW(),\n");
+						} else if (DBUtil.ORACLE.equals(dbType)) {
+							sb.append("\t\t\t\t").append(col).append(" = SYSDATE,\n");
+						}
+					} else {
+						sb.append("\t\t\t\t").append(col).append(" = #{").append(field).append("},\n");
 					}
-				}else{
-					sb.append("\t\t\t").append(col).append(" = #{").append(field).append("},\n");
+					sb.append("\t\t\t</if>\n");
 				}
 			}
-			
 		}
+		sb.append("\t\t</SET>\n");
 		if(columnList.contains("version")) {
 			sb.append("\t\tWHERE ").append(primaryKey).append(" = #{").append(StringUtil.format(primaryKey)).append("} and version = #{version}");
 		}else {
