@@ -39,17 +39,23 @@ public class MapperGenerator extends Generator {
 
     private String generateQueryConditionSql(String content, List<String> columnList) {
         StringBuilder sb = new StringBuilder();
-        for(String col : columnList){
-            String field = StringUtil.format(col);
-            if(!"createTime".equals(field)&&!"createBy".equals(field)&&
-               !"updateTime".equals(field)&&!"updateBy".equals(field)&&!"version".equals(field)){
-                sb.append("\t\t\t<if test=\""+field+" != null and "+field+" != ''\">\n");
-                sb.append("\t\t\t\tand "+col+" = #{"+field+"}\n");
-                sb.append("\t\t\t</if>\n");
-            }
-            
-            
-        }
+        StringBuffer keywords = new StringBuffer();
+		keywords.append("\t\t\t<if test=\"keywords != null and keywords != ''\">\n\t\t\t\tand (\n");
+		for(String col : columnList){
+			String field = StringUtil.format(col);
+			if(!field.contains("time") && !field.contains("Time") &&
+					!field.contains("Date") && !field.contains("date") && !"createBy".equals(field)&&
+					!"updateBy".equals(field)&&!"version".equals(field)){
+				sb.append("\t\t\t<if test=\""+field+" != null and "+field+" != ''\">\n");
+				sb.append("\t\t\t\tand "+col+" = #{"+field+"}\n");
+				sb.append("\t\t\t</if>\n");
+				keywords.append("\t\t\t\tor "+col+" like concat('%',#{keywords},'%')\n");
+			}
+
+		}
+		keywords.delete(65,68); //此处为删除第一次拼接的 or
+		keywords.append("\t\t\t\t)\n\t\t\t</if>\n");
+		sb.append(keywords);
         String newContent = content.replace(StringUtil.wrapper("queryConditionSql"), sb.toString());
         return newContent;
     }
