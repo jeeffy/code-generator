@@ -198,7 +198,7 @@ public class DBUtil {
 				String primaryKey = pkRSet.getString("COLUMN_NAME");
 				String primaryKeyType = getFormattedColumnNameTypeMap(pkRSet.getString("TABLE_NAME")).get(primaryKey);
                 map.put("id", primaryKey);
-                map.put("idType", primaryKeyType);
+                map.put("idType", primaryKeyType == null ? "Integer" : primaryKeyType);
 			} 
 		} catch (Exception e) {
 			throw new RuntimeException(e);
