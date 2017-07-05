@@ -121,7 +121,7 @@ public class MapperGenerator extends Generator {
 	}
 	private String generateUpdateSql(String content, String tableName, String primaryKey, List<String> columnList){
 		StringBuilder sb = new StringBuilder();
-		sb.append("UPDATE ").append(tableName).append(" \n\t\t<SET>\n");
+		sb.append("UPDATE ").append(tableName).append(" \n\t\t<set>\n");
 		for(int i=0;i<columnList.size();i++){
 			String col = columnList.get(i);
 			String field = StringUtil.format(col);
@@ -144,7 +144,7 @@ public class MapperGenerator extends Generator {
 				}
 			}
 		}
-		sb.append("\t\t</SET>\n");
+		sb.append("\t\t</set>\n");
 		if(columnList.contains("version")) {
 			sb.append("\t\tWHERE ").append(primaryKey).append(" = #{").append(StringUtil.format(primaryKey)).append("} and version = #{version}");
 		}else {
