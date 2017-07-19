@@ -160,7 +160,7 @@ public class MapperGenerator extends Generator {
 			sb.append("\t\t</selectKey>");
 		}else if(DBUtil.ORACLE.equals(dbType)){
 			sb.append("<selectKey resultType=\"").append(primaryKeyType).append("\"  order=\"BEFORE\" keyProperty=\"").append(StringUtil.format(primaryKey)).append("\" >\n");
-            sb.append("\t\t\tSELECT ").append(PropertiesUtil.getModule().toUpperCase()).append("_SEQUENCE.NEXTVAL FROM DUAL\n");
+            sb.append("\t\t\tSELECT ").append(PropertiesUtil.getModuleName().toUpperCase()).append("_SEQUENCE.NEXTVAL FROM DUAL\n");
 			sb.append("\t\t</selectKey>");
 		}
 		String newContent = content.replace(StringUtil.wrapper("insertPk"), sb.toString());

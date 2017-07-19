@@ -22,11 +22,11 @@ public class PropertiesUtil {
 	}
 	
 	public static String getPackage(){
-		String aPackage = prop.getProperty("package");
-		if(aPackage!=null){
-			aPackage = aPackage.trim();
+		String packageName = prop.getProperty("package");
+		if(packageName!=null){
+			packageName = packageName.trim();
 		}
-		return aPackage;
+		return packageName;
 	}
 	
 	public static String getLocation(){
@@ -37,6 +37,9 @@ public class PropertiesUtil {
 		return location;
 	}
 
+
+
+	@Deprecated
     public static List<String> getBeans() throws Exception {
         List<String> beans = null;
         String tables = prop.getProperty("tables");
@@ -50,6 +53,7 @@ public class PropertiesUtil {
         return beans;
     }
 
+	@Deprecated
 	public static Map<String, String> getBeanId(String beanName){
 	    String tableName = StringUtil.toUnderscoreCase(beanName);
         return DBUtil.getPrimaryKey(tableName);
@@ -58,16 +62,31 @@ public class PropertiesUtil {
 	/**
 	 * @return map key is field name, value is field type
 	 */
+	@Deprecated
 	public static Map<String, String> getBeanFields(String beanName){
         String tableName = StringUtil.toUnderscoreCase(beanName);
         return DBUtil.getFormattedColumnNameTypeMap(tableName);
 	}
-	
-	public static String getModule(){
+
+
+	public static String getModuleName(){
         String str = prop.getProperty("package");
         if(str!=null){
             str = str.trim().substring(str.lastIndexOf(".")+1);
         }
         return str;
     }
+
+
+	public static List<String> getTables() throws Exception {
+		List<String> tables = null;
+		String tableStr = prop.getProperty("tables");
+		if(tables != null && "__all__".equals(tableStr.trim().toLowerCase())){
+			tables = DBUtil.getAllTables();
+		}else if (tables != null && !"".equals(tableStr.trim())) {
+			tables = Arrays.stream(tableStr.trim().split(","))
+					.map(String::trim).collect(Collectors.toList());
+		}
+		return tables;
+	}
 }

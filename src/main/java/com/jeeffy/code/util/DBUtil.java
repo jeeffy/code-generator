@@ -195,7 +195,7 @@ public class DBUtil {
 		Map<String,String> map = new HashMap<>();
 		try(ResultSet pkRSet = getConnection().getMetaData().getPrimaryKeys(null, null, tableName)) {
 			while( pkRSet.next() ) {
-				String primaryKey = pkRSet.getString("COLUMN_NAME");
+				String primaryKey = StringUtil.format(pkRSet.getString("COLUMN_NAME"));
 				String primaryKeyType = getFormattedColumnNameTypeMap(pkRSet.getString("TABLE_NAME")).get(primaryKey);
                 map.put("id", primaryKey);
                 map.put("idType", primaryKeyType);
