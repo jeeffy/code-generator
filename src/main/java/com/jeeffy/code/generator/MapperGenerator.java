@@ -16,7 +16,7 @@ public class MapperGenerator extends Generator {
 		String tableName = StringUtil.toUnderscoreCase(beanName);
 		String template = "mapper.tpl";
 		List<String> columnList = getColumnNameList(beanName);
-		Map<String,String> map = PropertiesUtil.getBeanId(beanName);
+		Map<String,String> map = getBeanId(beanName);
 		String primaryKey = StringUtil.toUnderscoreCase(map.get("id"));
 		String primaryKeyType = getPrimaryKeyType(map.get("idType"));
 		String content = generate(template,beanName);
@@ -40,7 +40,7 @@ public class MapperGenerator extends Generator {
     private String generateQueryConditionSql(String content, List<String> columnList) {
         StringBuilder sb = new StringBuilder();
         for(String col : columnList){
-            String field = StringUtil.format(col);
+            String field = StringUtil.camelCase(col);
             if(!"createTime".equals(field)&&!"createBy".equals(field)&&
                !"updateTime".equals(field)&&!"updateBy".equals(field)&&!"version".equals(field)){
                 sb.append("\t\t\t<if test=\""+field+" != null and "+field+" != ''\">\n");
@@ -57,7 +57,7 @@ public class MapperGenerator extends Generator {
     private String generateResultMap(String content,String primaryKey, List<String> columnList){
 		StringBuilder sb = new StringBuilder();
 		for(String col : columnList){
-			String field = StringUtil.format(col);
+			String field = StringUtil.camelCase(col);
             if(col.equalsIgnoreCase(primaryKey)){
                 sb.append("\t\t<id property=\"").append(field).append("\" column=\"").append(col).append("\"/>\n");
             }else{
@@ -78,7 +78,7 @@ public class MapperGenerator extends Generator {
 	private String generateSelectSql(String content, String tableName, String primaryKey){
 		StringBuilder sb = new StringBuilder();
 		sb.append("SELECT * FROM ").append(tableName).append(" WHERE ")
-		  .append(primaryKey).append(" =#{").append(StringUtil.format(primaryKey)).append("}");
+		  .append(primaryKey).append(" =#{").append(StringUtil.camelCase(primaryKey)).append("}");
 		String newContent = content.replace(StringUtil.wrapper("selectSql"), sb.toString());
 		return newContent;
 	}
@@ -96,7 +96,7 @@ public class MapperGenerator extends Generator {
 		sb.append("\t\t)VALUES(\n");
 		for(int i=0;i<columnList.size();i++){
 			String col = columnList.get(i);
-			String field = StringUtil.format(col);
+			String field = StringUtil.camelCase(col);
 			String dbType = DBUtil.getDatabaseType();
 			if("createTime".equals(field)||"updateTime".equals(field)){
 				if(DBUtil.MYSQL.equals(dbType)){
@@ -118,7 +118,7 @@ public class MapperGenerator extends Generator {
 		sb.append("UPDATE ").append(tableName).append(" SET\n");
 		for(int i=0;i<columnList.size();i++){
 			String col = columnList.get(i);
-			String field = StringUtil.format(col);
+			String field = StringUtil.camelCase(col);
 			if(!primaryKey.equals(col)&&!("createTime").equals(field)&&!("createBy").equals(field)){
 				String dbType = DBUtil.getDatabaseType();
 				if("version".equals(field)) {
@@ -136,9 +136,9 @@ public class MapperGenerator extends Generator {
 			
 		}
 		if(columnList.contains("version")) {
-			sb.append("\t\tWHERE ").append(primaryKey).append(" = #{").append(StringUtil.format(primaryKey)).append("} and version = #{version}");
+			sb.append("\t\tWHERE ").append(primaryKey).append(" = #{").append(StringUtil.camelCase(primaryKey)).append("} and version = #{version}");
 		}else {
-			sb.append("\t\tWHERE ").append(primaryKey).append(" = #{").append(StringUtil.format(primaryKey)).append("}");
+			sb.append("\t\tWHERE ").append(primaryKey).append(" = #{").append(StringUtil.camelCase(primaryKey)).append("}");
 		}
 		String newContent = content.replace(StringUtil.wrapper("updateSql"), sb.toString());
 		newContent = StringUtil.removeLast(newContent, ",");
@@ -147,7 +147,7 @@ public class MapperGenerator extends Generator {
 	private String generateDeleteSql(String content, String tableName, String primaryKey){
 		StringBuilder sb = new StringBuilder();
 		sb.append("DELETE FROM ").append(tableName).append(" WHERE ")
-		  .append(primaryKey).append(" = #{").append(StringUtil.format(primaryKey)).append("}");
+		  .append(primaryKey).append(" = #{").append(StringUtil.camelCase(primaryKey)).append("}");
 		String newContent = content.replace(StringUtil.wrapper("deleteSql"), sb.toString());
 		return newContent;
 	}
@@ -155,12 +155,12 @@ public class MapperGenerator extends Generator {
 		StringBuilder sb = new StringBuilder();
 		String dbType = DBUtil.getDatabaseType();
 		if(DBUtil.MYSQL.equals(dbType)){
-			sb.append("<selectKey resultType=\"").append(primaryKeyType).append("\"  order=\"AFTER\" keyProperty=\"").append(StringUtil.format(primaryKey)).append("\" >\n");
+			sb.append("<selectKey resultType=\"").append(primaryKeyType).append("\"  order=\"AFTER\" keyProperty=\"").append(StringUtil.camelCase(primaryKey)).append("\" >\n");
 			sb.append("\t\t\tSELECT LAST_INSERT_ID()\n");
 			sb.append("\t\t</selectKey>");
 		}else if(DBUtil.ORACLE.equals(dbType)){
-			sb.append("<selectKey resultType=\"").append(primaryKeyType).append("\"  order=\"BEFORE\" keyProperty=\"").append(StringUtil.format(primaryKey)).append("\" >\n");
-            sb.append("\t\t\tSELECT ").append(PropertiesUtil.getModuleName().toUpperCase()).append("_SEQUENCE.NEXTVAL FROM DUAL\n");
+			sb.append("<selectKey resultType=\"").append(primaryKeyType).append("\"  order=\"BEFORE\" keyProperty=\"").append(StringUtil.camelCase(primaryKey)).append("\" >\n");
+            sb.append("\t\t\tSELECT ").append(getModuleName().toUpperCase()).append("_SEQUENCE.NEXTVAL FROM DUAL\n");
 			sb.append("\t\t</selectKey>");
 		}
 		String newContent = content.replace(StringUtil.wrapper("insertPk"), sb.toString());
@@ -168,7 +168,7 @@ public class MapperGenerator extends Generator {
 	}
 	
 	private List<String> getColumnNameList(String beanName){
-		Map<String, String> fieldsMap = PropertiesUtil.getBeanFields(beanName);
+		Map<String, String> fieldsMap = getFieldsMap(beanName);
 		List<String> list = fieldsMap.keySet().stream().map(StringUtil::toUnderscoreCase).collect(Collectors.toList());
         return list;
 	}

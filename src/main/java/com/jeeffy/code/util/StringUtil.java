@@ -17,25 +17,28 @@ public class StringUtil {
 		str = str.substring(0, 1).toLowerCase() + str.substring(1);
 		return str;
 	}
-	
-	public static String firstUpperCase(String str){
-		str = str.substring(0, 1).toUpperCase() + str.substring(1);
-		return str;
-	}
-	
 
-	public static String toUnderscoreCase(String s) {
-		if (s == null) {
+	public static String firstUpperCase(String str) {
+		if (str == null) {
+			return null;
+		}
+		str = camelCase(str);
+		return str.substring(0, 1).toUpperCase() + str.substring(1);
+	}
+
+	@Deprecated
+	public static String toUnderscoreCase(String str) {
+		if (str == null) {
 			return null;
 		}
 
 		StringBuilder sb = new StringBuilder();
 		boolean upperCase = false;
-		for (int i = 0; i < s.length(); i++) {
-			char c = s.charAt(i);
+		for (int i = 0; i < str.length(); i++) {
+			char c = str.charAt(i);
 			boolean nextUpperCase = true;
-			if (i < (s.length() - 1)) {
-				nextUpperCase = Character.isUpperCase(s.charAt(i + 1));
+			if (i < (str.length() - 1)) {
+				nextUpperCase = Character.isUpperCase(str.charAt(i + 1));
 			}
 			if (Character.isUpperCase(c)) {
 				if (!upperCase || !nextUpperCase) {
@@ -51,15 +54,15 @@ public class StringUtil {
 		return sb.toString();
 	}
 
-	public static String toCamelCase(String s) {
-		if (s == null) {
+	public static String camelCase(String str) {
+		if (str == null) {
 			return null;
 		}
-		s = s.toLowerCase();
-		StringBuilder sb = new StringBuilder(s.length());
+		str = str.toLowerCase();
+		StringBuilder sb = new StringBuilder(str.length());
 		boolean upperCase = false;
-		for (int i = 0; i < s.length(); i++) {
-			char c = s.charAt(i);
+		for (int i = 0; i < str.length(); i++) {
+			char c = str.charAt(i);
 			if (c == SEPARATOR) {
 				upperCase = true;
 			} else if (upperCase) {
@@ -72,16 +75,8 @@ public class StringUtil {
 		return sb.toString();
 	}
 
-	public static String toCapitalizeCamelCase(String s) {
-		if (s == null) {
-			return null;
-		}
-		s = toCamelCase(s);
-		return s.substring(0, 1).toUpperCase() + s.substring(1);
-	}
-	
-	public static String format(String string){
-		return toCamelCase(string);
+	public static String removePrefix(String str){
+		return str.substring(str.length());
 	}
 	
 	public static String removeLast(String str, String rm){

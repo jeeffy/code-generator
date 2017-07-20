@@ -17,7 +17,7 @@ public class DBUtilTest {
 
     @Test
     public void testGetColumnNameTypeMap(){
-        Map<String, String> map = DBUtil.getFormattedColumnNameTypeMap("user");
+        Map<String, String> map = DBUtil.getColumnNameAndJavaTypeMap("user");
         System.out.println(map);
         Assert.assertNotNull(map);
     }

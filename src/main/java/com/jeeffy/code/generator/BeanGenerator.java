@@ -11,11 +11,12 @@ import java.util.Set;
 
 public class BeanGenerator extends Generator {
 
-	public void generate(String beanName) {
-		Map<String, String> fieldMap = PropertiesUtil.getBeanFields(beanName);
+	public void generate(String tableName) {
+		String beanName = getBeanName(tableName);
+		Map<String, String> fieldMap = getFieldsMap(beanName);
 		String ClassName = beanName;
 		StringBuilder sb = new StringBuilder();
-		sb.append("package "+ PropertiesUtil.getPackage()+".bean;\n\n");
+		sb.append("package "+ getPackage()+".bean;\n\n");
 		
 		sb.append(generateImport(fieldMap));
 		sb.append("\npublic class "+ClassName+" {\n");

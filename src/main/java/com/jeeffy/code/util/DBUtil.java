@@ -78,7 +78,7 @@ public class DBUtil {
         return tableList;
 	}
 	
-	public static Map<String,String> getFormattedColumnNameTypeMap(String tableName){
+	public static Map<String,String> getColumnNameAndJavaTypeMap(String tableName){
 		Map<String,String> colMap = new LinkedHashMap<>();
 		try(ResultSet colRet = getConnection().getMetaData().getColumns(null, "%", tableName, "%")) {
 			while (colRet.next()) {
@@ -93,7 +93,7 @@ public class DBUtil {
 				}else if("oracle".equals(getDatabaseType())){
 					columnType = getDataTypeForOracle(typeName,columnSize,digits);
 				}
-				colMap.put(StringUtil.format(columnName), columnType);
+				colMap.put(columnName, columnType);
 			}
 		} catch (Exception e) {
 			throw new RuntimeException(e);
@@ -195,8 +195,8 @@ public class DBUtil {
 		Map<String,String> map = new HashMap<>();
 		try(ResultSet pkRSet = getConnection().getMetaData().getPrimaryKeys(null, null, tableName)) {
 			while( pkRSet.next() ) {
-				String primaryKey = StringUtil.format(pkRSet.getString("COLUMN_NAME"));
-				String primaryKeyType = getFormattedColumnNameTypeMap(pkRSet.getString("TABLE_NAME")).get(primaryKey);
+				String primaryKey = pkRSet.getString("COLUMN_NAME");
+				String primaryKeyType = getColumnNameAndJavaTypeMap(pkRSet.getString("TABLE_NAME")).get(primaryKey);
                 map.put("id", primaryKey);
                 map.put("idType", primaryKeyType);
 			} 

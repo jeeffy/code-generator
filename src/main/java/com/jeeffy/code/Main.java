@@ -17,13 +17,13 @@ public class Main {
         GeneratorGroup.add(new ServiceTestGenerator());
         GeneratorGroup.add(new MapperGenerator());
 
-        List<String> beans = PropertiesUtil.getBeans();
-        for(String beanName : beans){
-            if(PropertiesUtil.getBeanId(beanName).size() != 0){
-                GeneratorGroup.run(beanName);
-                System.out.println(beanName + " has been generated.");
+        List<String> tables = Generator.getTables();
+        for(String table : tables){
+            if(Generator.getPrimaryKey(table).size() != 0){
+                GeneratorGroup.run(table);
+                System.out.println(table + " has been generated.");
             }else {
-                System.err.println(beanName + " has not id, ignore.");
+                System.err.println(table + " has not id, ignore.");
             }
         }
 

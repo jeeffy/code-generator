@@ -10,7 +10,7 @@ public class PropertiesUtilTest {
 
 	@Test
 	public void testGetBeanFields(){
-		Map<String, String> map = PropertiesUtil.getBeanFields("user");
+		Map<String, String> map = PropertiesUtil.getFieldsMap("user");
 		System.out.println(map);
         Assert.assertNotNull(map);
 	}
