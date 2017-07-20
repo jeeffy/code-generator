@@ -10,7 +10,7 @@ public class DBUtilTest {
 
 	@Test
 	public void testGetPrimaryKey(){
-		Map<String, String> map = DBUtil.getPrimaryKey("role_resource");
+		Map<String, String> map = DBUtil.getIdMap("role_resource");
 		System.out.println(map);
         Assert.assertNotNull(map);
 	}

@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 
 import ${packageName}.dao.${ClassName}Dao;
 import ${packageName}.bean.${ClassName};
-import ${packageName}.service.${ClassName}Service;
 
 @Service
 public class ${ClassName}Service {

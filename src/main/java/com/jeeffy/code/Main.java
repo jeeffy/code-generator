@@ -19,7 +19,7 @@ public class Main {
 
         List<String> tables = Generator.getTables();
         for(String table : tables){
-            if(Generator.getPrimaryKey(table).size() != 0){
+            if(Generator.getBeanId(table).size() != 0){
                 GeneratorGroup.run(table);
                 System.out.println(table + " has been generated.");
             }else {

@@ -11,15 +11,15 @@ import java.util.stream.Collectors;
 
 public class MapperGenerator extends Generator {
 
-	public void generate(String beanName) {
+	public void generate(String tableName) {
+		String beanName = getBeanName(tableName);
 		
-		String tableName = StringUtil.toUnderscoreCase(beanName);
 		String template = "mapper.tpl";
-		List<String> columnList = getColumnNameList(beanName);
-		Map<String,String> map = getBeanId(beanName);
+		List<String> columnList = getColumnNameList(tableName);
+		Map<String,String> map = getBeanId(tableName);
 		String primaryKey = StringUtil.toUnderscoreCase(map.get("id"));
 		String primaryKeyType = getPrimaryKeyType(map.get("idType"));
-		String content = generate(template,beanName);
+		String content = generate(template,tableName);
 
 		content = generateResultMap(content,primaryKey, columnList);
 		content = generateQueryConditionSql(content, columnList);
@@ -160,15 +160,15 @@ public class MapperGenerator extends Generator {
 			sb.append("\t\t</selectKey>");
 		}else if(DBUtil.ORACLE.equals(dbType)){
 			sb.append("<selectKey resultType=\"").append(primaryKeyType).append("\"  order=\"BEFORE\" keyProperty=\"").append(StringUtil.camelCase(primaryKey)).append("\" >\n");
-            sb.append("\t\t\tSELECT ").append(getModuleName().toUpperCase()).append("_SEQUENCE.NEXTVAL FROM DUAL\n");
+            sb.append("\t\t\tSELECT ").append(PropertiesUtil.getModuleName().toUpperCase()).append("_SEQUENCE.NEXTVAL FROM DUAL\n");
 			sb.append("\t\t</selectKey>");
 		}
 		String newContent = content.replace(StringUtil.wrapper("insertPk"), sb.toString());
 		return newContent;
 	}
 	
-	private List<String> getColumnNameList(String beanName){
-		Map<String, String> fieldsMap = getFieldsMap(beanName);
+	private List<String> getColumnNameList(String tableName){
+		Map<String, String> fieldsMap = getFieldsMap(tableName);
 		List<String> list = fieldsMap.keySet().stream().map(StringUtil::toUnderscoreCase).collect(Collectors.toList());
         return list;
 	}

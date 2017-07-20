@@ -22,7 +22,6 @@ public class StringUtil {
 		if (str == null) {
 			return null;
 		}
-		str = camelCase(str);
 		return str.substring(0, 1).toUpperCase() + str.substring(1);
 	}
 
@@ -75,13 +74,13 @@ public class StringUtil {
 		return sb.toString();
 	}
 
-	public static String removePrefix(String str){
-		return str.substring(str.length());
+	public static String removePrefix(String str, String rmStr){
+		return str.substring(rmStr.length());
 	}
 	
-	public static String removeLast(String str, String rm){
-		int last = str.lastIndexOf(rm);
-		String s = str.substring(0, last)+str.substring(last+rm.length());
+	public static String removeLast(String str, String rmStr){
+		int last = str.lastIndexOf(rmStr);
+		String s = str.substring(0, last)+str.substring(last+rmStr.length());
 		return s;
 	}
 }

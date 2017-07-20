@@ -191,14 +191,14 @@ public class DBUtil {
 	 * @param tableName
 	 * @return primary key if table contains one
 	 */
-	public static Map<String,String> getPrimaryKey(String tableName){
+	public static Map<String,String> getIdMap(String tableName){
 		Map<String,String> map = new HashMap<>();
 		try(ResultSet pkRSet = getConnection().getMetaData().getPrimaryKeys(null, null, tableName)) {
 			while( pkRSet.next() ) {
-				String primaryKey = pkRSet.getString("COLUMN_NAME");
-				String primaryKeyType = getColumnNameAndJavaTypeMap(pkRSet.getString("TABLE_NAME")).get(primaryKey);
-                map.put("id", primaryKey);
-                map.put("idType", primaryKeyType);
+				String pk = pkRSet.getString("COLUMN_NAME");
+				String pkJavaType = getColumnNameAndJavaTypeMap(pkRSet.getString("TABLE_NAME")).get(pk);
+                map.put("id", StringUtil.camelCase(pk));
+                map.put("idType", pkJavaType);
 			} 
 		} catch (Exception e) {
 			throw new RuntimeException(e);

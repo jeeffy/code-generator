@@ -13,9 +13,9 @@ public class GeneratorGroup {
             list.add(generator);
     }
 
-    public static void run(String beanName){
+    public static void run(String tableName){
         for (Generator generator : list){
-            generator.generate(beanName);
+            generator.generate(tableName);
         }
     }
 }
