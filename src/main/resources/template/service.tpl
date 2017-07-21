@@ -3,6 +3,7 @@ package ${packageName}.service;
 import java.util.List;
 import java.util.Map;
 
+import com.alibaba.fastjson.JSON;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,7 +15,8 @@ public class ${ClassName}Service {
     @Autowired
 	private ${ClassName}Dao ${className}Dao;
 	
-	public List<${ClassName}> getByMap(Map<String,Object> map) {
+	public List<${ClassName}> get(${ClassName} ${className}) {
+	    Map map = (Map)JSON.toJSON(user);
 	    return ${className}Dao.getByMap(map);
 	}
 	

@@ -17,21 +17,28 @@ public class ${ClassName}ServiceTest extends BaseTest {
 	${ClassName}Service ${className}Service;
 	
 	@Test
-	public void testGetByMap() {
-    	List<${ClassName}> list = ${className}Service.getByMap(null);
+	public void testGet() {
+	    ${ClassName} ${className} = new ${ClassName}();
+    	List<${ClassName}> list = ${className}Service.get(${className});
 		assertNotNull(list);
 	}
-	
+
+	@Test
+    public void testGetById() {
+        ${ClassName} ${className} = ${className}Service.getById(id);
+        assertNotNull(${className});
+    }
+
     @Test
 	public void testCreate() {
     	${ClassName} ${className} = new ${ClassName}();
 		${className}Service.create(${className});
 	}
-    
+
     @Test
-    public void testGetById() {
-    	${ClassName} ${className} = ${className}Service.getById(id);
-    	assertNotNull(${className});
+    public void testUpdate() {
+        ${ClassName} ${className} = new ${ClassName}();
+        ${className}Service.update(${className});
     }
 
     @Test

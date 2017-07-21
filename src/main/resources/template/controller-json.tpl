@@ -2,8 +2,6 @@ package ${packageName}.controller;
 
 import java.util.List;
 
-import javax.servlet.http.HttpServletRequest;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,12 +17,12 @@ public class ${ClassName}Controller {
 	
 	
 	@GetMapping
-    public List<${ClassName}> list(HttpServletRequest request) {
-		return ${className}Service.getByMap(null);
+    public List<${ClassName}> list(${ClassName} ${className}) {
+		return ${className}Service.get(${className});
     }
 	
 	@GetMapping("/{userId}")
-    public ${ClassName} detail(@PathVariable ${idType} ${id}) {
+    public ${ClassName} getById(@PathVariable ${idType} ${id}) {
 		return ${className}Service.getById(${id});
     }
     
