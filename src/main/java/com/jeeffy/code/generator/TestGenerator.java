@@ -2,7 +2,7 @@ package com.jeeffy.code.generator;
 
 import com.jeeffy.code.util.FileUtil;
 
-public class ServiceTestGenerator extends Generator {
+public class TestGenerator extends Generator {
 
 	public void generate(String tableName) {
 		generateDaoTest(tableName);
@@ -10,9 +10,9 @@ public class ServiceTestGenerator extends Generator {
 
 	private void generateDaoTest(String tableName) {
 		String beanName = getBeanName(tableName);
-		String template = "service-test.tpl";
+		String template = "controller-test.tpl";
 		String content = generate(template,tableName);
 		
-		writeContentToFile(content, FileUtil.getPackageDirectory("service-test") + beanName + "ServiceTest.java");
+		writeContentToFile(content, FileUtil.getPackageDirectory("controller-test") + beanName + "ControllerTest.java");
 	}
 }

@@ -19,7 +19,7 @@ public class FileUtil {
 		
 		String mapperDir = mainResourcesDir + packageDir +"/mapper";
 		
-		String serviceTestDir = testJavaDir + packageDir+"/service";
+		String testDir = testJavaDir + packageDir+"/controller";
 		
 		mkdir(beanDir); 
 		mkdir(daoDir); 
@@ -28,7 +28,7 @@ public class FileUtil {
 		
 		mkdir(mapperDir); 
 		
-		mkdir(serviceTestDir); 
+		mkdir(testDir);
 		
 	}
 
@@ -48,8 +48,8 @@ public class FileUtil {
 		String mainResourcesDir = location + "/src/main/resources";
 		String testJavaDir = location + "/src/test/java";
 
-		if("service-test".equals(name)){
-			directory = testJavaDir + packageDir +"/service/";
+		if("controller-test".equals(name)){
+			directory = testJavaDir + packageDir +"/controller/";
 		}else if("mapper".equals(name)){
 			directory = mainResourcesDir + packageDir +"/mapper/";
 		}else{

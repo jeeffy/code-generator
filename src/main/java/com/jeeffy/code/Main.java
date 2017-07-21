@@ -2,7 +2,6 @@ package com.jeeffy.code;
 
 import com.jeeffy.code.generator.*;
 import com.jeeffy.code.util.FileUtil;
-import com.jeeffy.code.util.PropertiesUtil;
 
 import java.util.List;
 
@@ -14,7 +13,7 @@ public class Main {
         GeneratorGroup.add(new DaoGenerator());
         GeneratorGroup.add(new ServiceGenerator());
         GeneratorGroup.add(new ControllerGenerator());
-        GeneratorGroup.add(new ServiceTestGenerator());
+        GeneratorGroup.add(new TestGenerator());
         GeneratorGroup.add(new MapperGenerator());
 
         List<String> tables = Generator.getTables();

@@ -23,22 +23,22 @@ public class ${ClassName}Controller {
 		return ${className}Service.getByMap(null);
     }
 	
-	@GetMapping("/{id}")
+	@GetMapping("/{userId}")
     public ${ClassName} detail(@PathVariable ${idType} ${id}) {
 		return ${className}Service.getById(${id});
     }
     
     @PostMapping
-    public ${ClassName} create(${ClassName} ${className}) {
+    public ${ClassName} create(@RequestBody ${ClassName} ${className}) {
 		return ${className}Service.create(${className});
     }
 
-    @PutMapping("/{id}")
-    public ${ClassName} update(${ClassName} ${className}) {
+    @PutMapping("/{userId}")
+    public ${ClassName} update(@RequestBody ${ClassName} ${className}) {
 		return ${className}Service.update(${className});
     }
     
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/{userId}")
     public int delete(@PathVariable ${idType} ${id}) {
 		return ${className}Service.delete(${id});
     }
