@@ -1,10 +1,7 @@
 package com.jeeffy.code.util;
 
-import com.jeeffy.code.generator.Generator;
-
 import java.io.InputStream;
-import java.util.*;
-import java.util.stream.Collectors;
+import java.util.Properties;
 
 
 public class PropertiesUtil {

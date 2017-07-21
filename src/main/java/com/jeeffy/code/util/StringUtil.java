@@ -25,7 +25,6 @@ public class StringUtil {
 		return str.substring(0, 1).toUpperCase() + str.substring(1);
 	}
 
-	@Deprecated
 	public static String toUnderscoreCase(String str) {
 		if (str == null) {
 			return null;
