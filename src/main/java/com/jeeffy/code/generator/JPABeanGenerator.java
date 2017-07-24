@@ -21,7 +21,7 @@ public class JPABeanGenerator extends Generator{
 		sb.append("package "+ PropertiesUtil.getPackage()+".bean;\n\n");
 		
 		sb.append(generateImport(fieldMap));
-		sb.append("\n@Entity\n@Table(name = \""+StringUtil.toUnderscoreCase(ClassName)+"\")");
+		sb.append("\n@Entity\n@Table(name = \""+tableName+"\")");
 		sb.append("\npublic class "+ClassName+"{\n");
 		sb.append(generateFields(id, fieldMap));
 		sb.append(generateGetAndSetMethods(fieldMap));

@@ -9,7 +9,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-public class UserControllerTest extends BaseTest {
+public class ${ClassName}ControllerTest extends BaseTest {
 
     private String baseUrl = "/${className}s/";
     private ${idType} id = null;

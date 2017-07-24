@@ -21,7 +21,7 @@ public class ${ClassName}Controller {
 		return ${className}Service.get(${className});
     }
 	
-	@GetMapping("/{id}")
+	@GetMapping("/{${id}}")
     public ${ClassName} detail(@PathVariable ${idType} ${id}) {
 		return ${className}Service.getById(${id});
     }
@@ -31,12 +31,12 @@ public class ${ClassName}Controller {
 		return ${className}Service.create(${className});
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/{${id}}")
     public ${ClassName} update(${ClassName} ${className}) {
 		return ${className}Service.update(${className});
     }
     
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/{${id}}")
     public int delete(@PathVariable ${idType} ${id}) {
 		return ${className}Service.delete(${id});
     }

@@ -16,7 +16,7 @@ public class ${ClassName}Service {
 	private ${ClassName}Dao ${className}Dao;
 	
 	public List<${ClassName}> get(${ClassName} ${className}) {
-	    Example<User> example = Example.of(${className});
+	    Example<${ClassName}> example = Example.of(${className});
         return ${className}Dao.findAll(example);
 	}
 	

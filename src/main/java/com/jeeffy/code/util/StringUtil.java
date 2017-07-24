@@ -74,7 +74,10 @@ public class StringUtil {
 	}
 
 	public static String removePrefix(String str, String rmStr){
-		return str.substring(rmStr.length());
+		if (str.startsWith(rmStr)){
+			return str.substring(rmStr.length());
+		}
+		return str;
 	}
 	
 	public static String removeLast(String str, String rmStr){
