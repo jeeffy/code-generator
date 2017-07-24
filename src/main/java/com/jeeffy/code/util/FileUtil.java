@@ -25,9 +25,10 @@ public class FileUtil {
 		mkdir(daoDir); 
 		mkdir(serviceDir); 
 		mkdir(controllerDir); 
-		
-		mkdir(mapperDir); 
-		
+		if (!PropertiesUtil.isJpa()){
+			mkdir(mapperDir);
+		}
+
 		mkdir(testDir);
 		
 	}

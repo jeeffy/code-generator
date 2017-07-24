@@ -50,10 +50,28 @@ public class PropertiesUtil {
 	}
 
 	public static String getRemovableTablePrefix(){
-		String str = prop.getProperty("removable_table_prefix");
+		String str = prop.getProperty("removable-table-prefix");
 		if(str!=null){
 			str = str.trim();
 		}
 		return str;
+	}
+
+	public static String getDaoLayerImplement(){
+		String str = prop.getProperty("dao-layer-implement");
+		if (str==null || "".equals(str)){
+			str = "mybatis";
+		}else{
+			str = str.trim().toLowerCase();
+		}
+		return str;
+	}
+
+	public static boolean isJpa(){
+		String str = getDaoLayerImplement();
+		if ("jpa".equals(str)){
+			return true;
+		}
+		return false;
 	}
 }

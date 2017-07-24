@@ -26,7 +26,13 @@ public abstract class Generator {
     protected abstract void generate(String beanName);
 
     protected String generate(String template, String tableName) {
-		String content = readTemplateContent(template);
+        String content = null;
+        if (PropertiesUtil.isJpa()){
+            content = readTemplateContent("jpa/"+template);
+        }else{
+            content = readTemplateContent(template);
+        }
+
 
 		Map<String,String> idMap = getBeanId(tableName);
 

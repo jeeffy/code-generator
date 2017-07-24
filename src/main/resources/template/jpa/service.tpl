@@ -1,11 +1,11 @@
 package ${packageName}.service;
 
 import java.util.List;
-import java.util.Map;
 
-import com.alibaba.fastjson.JSON;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import ${packageName}.dao.${ClassName}Dao;
 import ${packageName}.bean.${ClassName};
@@ -16,26 +16,24 @@ public class ${ClassName}Service {
 	private ${ClassName}Dao ${className}Dao;
 	
 	public List<${ClassName}> get(${ClassName} ${className}) {
-	    Map map = (Map)JSON.toJSON(${className});
-	    return ${className}Dao.getByMap(map);
+	    Example<User> example = Example.of(${className});
+        return ${className}Dao.findAll(example);
 	}
 	
 	public ${ClassName} getById(${idType} ${id}) {
-		return ${className}Dao.getById(${id});
+		return ${className}Dao.findOne(${id});
 	}
-	
-	public ${ClassName} create(${ClassName} ${className}) {
-		${className}Dao.create(${className});
+
+	@Transactional
+	public ${ClassName} save(${ClassName} ${className}) {
+		${className}Dao.save(${className});
 		return ${className};
 	}
-	
-	public ${ClassName} update(${ClassName} ${className}) {
-		${className}Dao.update(${className});
-		return ${className};
-	}
-	
+
+	@Transactional
 	public int delete(${idType} ${id}) {
-		return ${className}Dao.delete(${id});
+		${className}Dao.delete(${id});
+		return 1;
 	}
     
 }
