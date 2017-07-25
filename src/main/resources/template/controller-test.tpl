@@ -42,7 +42,7 @@ public class ${ClassName}ControllerTest extends BaseTest {
     @Test
     public void testUpdate() throws Exception {
         String data = "";
-        mvc.perform(put(baseUrl)
+        mvc.perform(put(baseUrl + id)
                 .contentType(MediaType.APPLICATION_FORM_URLENCODED)
                 .content(data)
         )
