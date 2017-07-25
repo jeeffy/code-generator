@@ -15,12 +15,12 @@ public class ${ClassName}Service {
     @Autowired
 	private ${ClassName}Dao ${className}Dao;
 	
-	public List<${ClassName}> get(${ClassName} ${className}) {
+	public List<${ClassName}> list(${ClassName} ${className}) {
 	    Example<${ClassName}> example = Example.of(${className});
         return ${className}Dao.findAll(example);
 	}
 	
-	public ${ClassName} getById(${idType} ${id}) {
+	public ${ClassName} get(${idType} ${id}) {
 		return ${className}Dao.findOne(${id});
 	}
 

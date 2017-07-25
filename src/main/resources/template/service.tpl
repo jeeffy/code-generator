@@ -15,13 +15,13 @@ public class ${ClassName}Service {
     @Autowired
 	private ${ClassName}Dao ${className}Dao;
 	
-	public List<${ClassName}> get(${ClassName} ${className}) {
+	public List<${ClassName}> list(${ClassName} ${className}) {
 	    Map map = (Map)JSON.toJSON(${className});
-	    return ${className}Dao.getByMap(map);
+	    return ${className}Dao.list(map);
 	}
 	
-	public ${ClassName} getById(${idType} ${id}) {
-		return ${className}Dao.getById(${id});
+	public ${ClassName} get(${idType} ${id}) {
+		return ${className}Dao.get(${id});
 	}
 	
 	public ${ClassName} create(${ClassName} ${className}) {

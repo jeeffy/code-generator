@@ -18,12 +18,12 @@ public class ${ClassName}Controller {
 	
 	@GetMapping
     public List<${ClassName}> list(${ClassName} ${className}) {
-		return ${className}Service.get(${className});
+		return ${className}Service.list(${className});
     }
 	
 	@GetMapping("/{${id}}")
-    public ${ClassName} detail(@PathVariable ${idType} ${id}) {
-		return ${className}Service.getById(${id});
+    public ${ClassName} get(@PathVariable ${idType} ${id}) {
+		return ${className}Service.get(${id});
     }
     
     @PostMapping

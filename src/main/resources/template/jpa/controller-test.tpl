@@ -26,7 +26,7 @@ public class ${ClassName}ControllerTest extends BaseTest {
     }
 
     @Test
-    public void testDetail() throws Exception {
+    public void testGet() throws Exception {
         mvc.perform(get(baseUrl + id))
                 .andDo(print())
                 .andExpect(jsonPath("$").exists());

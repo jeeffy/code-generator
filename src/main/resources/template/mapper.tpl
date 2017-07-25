@@ -11,11 +11,11 @@ ${queryConditionSql}
         </where>
     </sql>
     	
-    <select id="getByMap" parameterType="map" resultMap="${className}Map">
+    <select id="list" parameterType="map" resultMap="${className}Map">
     	${selectListSql}
     </select>
     
-    <select id="getById" parameterType="${pkType}" resultMap="${className}Map">
+    <select id="get" parameterType="${pkType}" resultMap="${className}Map">
     	${selectSql}
     </select>
     
