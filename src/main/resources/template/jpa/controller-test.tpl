@@ -16,7 +16,11 @@ public class ${ClassName}ControllerTest extends BaseTest {
 
     @Test
     public void testList() throws Exception {
-        mvc.perform(get(baseUrl))
+        String data = "";
+        mvc.perform(get(baseUrl)
+                .contentType(MediaType.APPLICATION_FORM_URLENCODED)
+                .content(data)
+        )
                 .andDo(print())
                 .andExpect(jsonPath("$").isArray());
     }
