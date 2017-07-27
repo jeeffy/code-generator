@@ -31,7 +31,9 @@ public class BeanGenerator extends Generator {
 	private String generateImport(Map<String, String> fieldMap){
 		StringBuilder sb = new StringBuilder();
 		Set<String> set = new HashSet<String>();
-		
+
+		set.add("com.fasterxml.jackson.annotation.JsonIgnore");
+
 		Set<String> keySet = fieldMap.keySet();
 		for(String key : keySet){
 			String value = fieldMap.get(key);
@@ -57,6 +59,10 @@ public class BeanGenerator extends Generator {
 		
 		for(String field : keySet){
 			String fieldType = map.get(field);
+			if("createTime".equals(field) ||"createBy".equals(field)
+				|| "updateTime".equals(field)|| "updateBy".equals(field)){
+				sb.append("\t@JsonIgnore\n");
+			}
 			sb.append("\tprivate ").append(fieldType+" ").append(field+";\n");
 			
 		}

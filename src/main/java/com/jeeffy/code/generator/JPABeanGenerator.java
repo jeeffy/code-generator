@@ -33,11 +33,9 @@ public class JPABeanGenerator extends Generator{
 		StringBuilder sb = new StringBuilder();
 		Set<String> set = new HashSet<String>();
 		
-		set.add("javax.persistence.Entity");
-		set.add("javax.persistence.GeneratedValue");
-		set.add("javax.persistence.Id");
-		set.add("javax.persistence.Table");
-		
+		set.add("com.fasterxml.jackson.annotation.JsonIgnore");
+		set.add("javax.persistence.*");
+
 		Set<String> keySet = fieldMap.keySet();
 		for(String key : keySet){
 			String value = fieldMap.get(key);
@@ -65,6 +63,10 @@ public class JPABeanGenerator extends Generator{
 			String fieldType = map.get(field);
 			if(id.equals(field)){
 				sb.append("\t@Id\n\t@GeneratedValue\n");
+			}else if("createTime".equals(field) || "updateTime".equals(field)){
+				sb.append("\t@JsonIgnore\n\t@Transient\n");
+			}else if("createBy".equals(field) || "updateBy".equals(field)){
+				sb.append("\t@JsonIgnore\n");
 			}
 			sb.append("\tprivate ").append(fieldType+" ").append(field+";\n");
 			
