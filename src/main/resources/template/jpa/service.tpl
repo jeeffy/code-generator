@@ -26,14 +26,12 @@ public class ${ClassName}Service {
 
 	@Transactional
 	public ${ClassName} save(${ClassName} ${className}) {
-		${className}Dao.save(${className});
-		return ${className};
+		return ${className}Dao.save(${className});
 	}
 
 	@Transactional
-	public int delete(${idType} ${id}) {
+	public void delete(${idType} ${id}) {
 		${className}Dao.delete(${id});
-		return 1;
 	}
     
 }

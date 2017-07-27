@@ -34,8 +34,8 @@ public class ${ClassName}Service {
 		return ${className};
 	}
 	
-	public int delete(${idType} ${id}) {
-		return ${className}Dao.delete(${id});
+	public void delete(${idType} ${id}) {
+		${className}Dao.delete(${id});
 	}
     
 }
