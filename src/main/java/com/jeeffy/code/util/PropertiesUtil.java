@@ -1,6 +1,10 @@
 package com.jeeffy.code.util;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
+
 import java.io.FileInputStream;
+import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Properties;
@@ -18,21 +22,21 @@ public class PropertiesUtil {
 			e.printStackTrace();
 		}
 	}
-	
-	public static String getPackage(){
-		String cgpackage = prop.getProperty("package");
-		if(cgpackage!=null){
-			cgpackage = cgpackage.trim();
+
+	public static String getConfig(String item){
+		String config = prop.getProperty(item);
+		if(config!=null){
+			config = config.trim();
 		}
-		return cgpackage;
+		return config;
+	}
+
+	public static String getPackage(){
+		return getConfig("package");
 	}
 	
 	public static String getLocation(){
-		String location = prop.getProperty("location");
-		if(location!=null){
-			location = location.trim();
-		}
-		return location;
+		return getConfig("location");
 	}
 	
 	public static Map<String, String> getBeanId(){
@@ -56,24 +60,57 @@ public class PropertiesUtil {
 	public static Map<String, String> getBeanFields(){
 		Map<String, String> map = new LinkedHashMap<>();
 		String fields = prop.getProperty("bean.fields");
-		
+
 		//use default if bean.id is empty
 		String id = prop.getProperty("bean.id");
 		if(id==null || "".equals(id.trim())){
 			map.put("id", "Integer");
 		}
-				
-		String[] fieldArr = fields.split(",");
-		for(String field : fieldArr){
-			if(field.contains(":")){
-				map.put(field.substring(0,field.indexOf(":")).trim(), field.substring(field.indexOf(":")+1).trim());
-			}else{
-				map.put(field.trim(), "String");
+
+		if (fields==null && !"".equals(fields)){
+			map = getBeanFieldsByJson(map,true);
+		}else{
+			String[] fieldArr = fields.split(",");
+			for(String field : fieldArr){
+				if(field.contains(":")){
+					map.put(field.substring(0,field.indexOf(":")).trim(), field.substring(field.indexOf(":")+1).trim());
+				}else{
+					map.put(field.trim(), "String");
+				}
 			}
+		}
+
+		return map;
+	}
+
+	private static Map<String, String> getBeanFieldsByJson(Map<String, String> map, boolean format) {
+		String path = getConfig("bean.json.path");
+		JSONObject json = JSON.parseObject(FileUtil.read(path));
+		for (Map.Entry<String, Object> entry : json.entrySet()){
+
+			Object value = entry.getValue();
+			String valueType = null;
+			if (value instanceof String){
+				valueType = "String";
+			}else if(value instanceof Integer){
+				valueType = "Integer";
+			}else if(value instanceof Double){
+				valueType = "Double";
+			}else if (value instanceof Date){
+				valueType = "Date";
+			}else {
+				valueType = "String";
+			}
+			if (format){
+				map.put(StringUtil.format(entry.getKey()), valueType);
+			}else{
+				map.put(entry.getKey(), valueType);
+			}
+
 		}
 		return map;
 	}
-	
+
 	public static String getBeanName(){
 		String bean = prop.getProperty("bean.name");
 		if(bean!=null && !"".equals(bean)){
