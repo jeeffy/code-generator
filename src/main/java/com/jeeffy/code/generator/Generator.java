@@ -23,7 +23,7 @@ public abstract class Generator {
         String id = StringUtil.wrapper("id");
     }
 
-    protected abstract void generate(String beanName);
+    protected abstract void generate(String tableName);
 
     protected String generate(String template, String tableName) {
         String content = null;
