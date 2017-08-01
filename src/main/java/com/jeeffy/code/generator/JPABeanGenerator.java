@@ -62,7 +62,7 @@ public class JPABeanGenerator extends Generator{
 		for(String field : keySet){
 			String fieldType = map.get(field);
 			if(id.equals(field)){
-				sb.append("\t@Id\n\t@GeneratedValue\n");
+				sb.append("\t@Id\n\t@GeneratedValue(strategy = GenerationType.IDENTITY)\n");
 			}else if("createTime".equals(field) || "updateTime".equals(field)){
 				sb.append("\t@JsonIgnore\n\t@Transient\n");
 			}else if("createBy".equals(field) || "updateBy".equals(field)){
