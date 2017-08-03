@@ -25,6 +25,7 @@ public class JPABeanGenerator extends Generator{
 		sb.append("\npublic class "+ClassName+"{\n");
 		sb.append(generateFields(id, fieldMap));
 		sb.append(generateGetAndSetMethods(fieldMap));
+		sb.append(generateToString(beanName, fieldMap));
 		sb.append("}");
 		writeContentToFile(sb.toString(), FileUtil.getPackageDirectory("bean") + beanName + ".java");
 	}
@@ -88,6 +89,26 @@ public class JPABeanGenerator extends Generator{
 			sb.append("\tpublic ").append("void ").append("set"+ StringUtil.firstUpperCase(field)+"("+fieldType+" "+field+") {\n\t\t")
 			  .append("this."+field+" = "+field+";\n\t}\n");
 		}
+		return sb.toString();
+	}
+
+	private String generateToString(String beanName, Map<String, String> map) {
+		Set<String> keySet = map.keySet();
+		StringBuilder sb = new StringBuilder();
+		sb.append("\t@Override\n");
+		sb.append("\tpublic String toString() {\n");
+		sb.append("\t\treturn \"" + beanName + "{\" +\n");
+		boolean isFirst = true;
+		for(String field : keySet){
+			if(isFirst){
+				sb.append("\t\t\t\""+field+"=\" + "+field+" +\n");
+				isFirst = false;
+			}else{
+				sb.append("\t\t\t\", "+field+"=\" + "+field+" +\n");
+			}
+		}
+		sb.append("\t\t\t'}';\n");
+		sb.append("\t\t}\n");
 		return sb.toString();
 	}
 }
