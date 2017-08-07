@@ -114,6 +114,12 @@ public class DBUtil {
 		        case Types.VARCHAR:  //12
 	                dataType="String";
 	                break;
+				case Types.TINYINT:    //-6
+					dataType="Integer";
+					break;
+				case Types.SMALLINT:    //5
+					dataType="Integer";
+					break;
 		        case Types.INTEGER:    //4
 		        	dataType="Integer";
 		        	break;
