@@ -5,29 +5,29 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import ${packageName}.bean.${ClassName};
-import ${packageName}.service.${ClassName}Service;
+import ${packageName}.bean.${classType};
+import ${packageName}.service.${classType}Service;
 
 @RequestMapping(value = "/${className}s")
 @RestController
-public class ${ClassName}Controller {
+public class ${classType}Controller {
 	
 	@Autowired
-	private ${ClassName}Service ${className}Service;
+	private ${classType}Service ${className}Service;
 	
 	
 	@GetMapping
-    public List<${ClassName}> list(${ClassName} ${className}) {
+    public List<${classType}> list(${classType} ${className}) {
 		return ${className}Service.list(${className});
     }
 	
 	@GetMapping("/{${id}}")
-    public ${ClassName} get(@PathVariable ${idType} ${id}) {
+    public ${classType} get(@PathVariable ${idType} ${id}) {
 		return ${className}Service.get(${id});
     }
     
     @PostMapping
-    public ${ClassName} save(@RequestBody ${ClassName} ${className}) {
+    public ${classType} save(@RequestBody ${classType} ${className}) {
 		return ${className}Service.save(${className});
     }
 

@@ -7,25 +7,25 @@ import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import ${packageName}.dao.${ClassName}Dao;
-import ${packageName}.bean.${ClassName};
+import ${packageName}.dao.${classType}Dao;
+import ${packageName}.bean.${classType};
 
 @Service
-public class ${ClassName}Service {
+public class ${classType}Service {
     @Autowired
-	private ${ClassName}Dao ${className}Dao;
+	private ${classType}Dao ${className}Dao;
 	
-	public List<${ClassName}> list(${ClassName} ${className}) {
-	    Example<${ClassName}> example = Example.of(${className});
+	public List<${classType}> list(${classType} ${className}) {
+	    Example<${classType}> example = Example.of(${className});
         return ${className}Dao.findAll(example);
 	}
 	
-	public ${ClassName} get(${idType} ${id}) {
+	public ${classType} get(${idType} ${id}) {
 		return ${className}Dao.findOne(${id});
 	}
 
 	@Transactional
-	public ${ClassName} save(${ClassName} ${className}) {
+	public ${classType} save(${classType} ${className}) {
 		return ${className}Dao.save(${className});
 	}
 

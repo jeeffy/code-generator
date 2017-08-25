@@ -2,8 +2,8 @@ package ${packageName}.dao;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import ${packageName}.bean.${ClassName};
+import ${packageName}.bean.${classType};
 
-public interface ${ClassName}Dao extends JpaRepository<${ClassName}, ${idType}>{
+public interface ${classType}Dao extends JpaRepository<${classType}, ${idType}>{
 	
 }

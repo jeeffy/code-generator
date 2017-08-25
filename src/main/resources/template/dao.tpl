@@ -3,13 +3,13 @@ package ${packageName}.dao;
 import java.util.List;
 import java.util.Map;
 
-import ${packageName}.bean.${ClassName};
+import ${packageName}.bean.${classType};
 
-public interface ${ClassName}Dao {
+public interface ${classType}Dao {
 
-	List<${ClassName}> list(Map map);
-	${ClassName} get(${idType} ${id});
-	${idType} create(${ClassName} ${className});
-	int update(${ClassName} ${className});
+	List<${classType}> list(Map map);
+	${classType} get(${idType} ${id});
+	${idType} create(${classType} ${className});
+	int update(${classType} ${className});
 	int delete(${idType} ${id});
 }
