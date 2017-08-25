@@ -27,7 +27,7 @@ public class ${ClassName}Controller {
     }
     
     @PostMapping
-    public ${ClassName} save(${ClassName} ${className}) {
+    public ${ClassName} save(@RequestBody ${ClassName} ${className}) {
 		return ${className}Service.save(${className});
     }
 

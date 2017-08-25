@@ -27,12 +27,12 @@ public class ${ClassName}Controller {
     }
     
     @PostMapping
-    public ${ClassName} create(${ClassName} ${className}) {
+    public ${ClassName} create(@RequestBody ${ClassName} ${className}) {
 		return ${className}Service.create(${className});
     }
 
     @PutMapping("/{${id}}")
-    public ${ClassName} update(${ClassName} ${className}) {
+    public ${ClassName} update(@RequestBody ${ClassName} ${className}) {
 		return ${className}Service.update(${className});
     }
     
