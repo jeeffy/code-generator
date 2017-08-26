@@ -38,8 +38,10 @@ public class FileUtil {
 
 	public static String getOutPath(Model model, String type){
 		String outPath = null;
-		if ("bean".equals(type)){
+		if (Const.TYPE_BEAN.equals(type)){
 			outPath = FileUtil.getDirectory(type) + model.getClassType() + ".java";
+		}else if(Const.TYPE_MAPPER.equals(type)){
+			outPath = FileUtil.getDirectory(type) + model.getClassType() + StringUtil.firstUpperCase(type) + ".xml";
 		}else {
 			outPath = FileUtil.getDirectory(type) + model.getClassType() + StringUtil.firstUpperCase(type) + ".java";
 		}

@@ -2,8 +2,6 @@ package ${packageName}.bean;
 
 import java.util.Date;
 
-@Entity
-@Table(name = "${tableName}")
 public class ${classType}{
 
 <#list fields as field>
@@ -23,7 +21,7 @@ public class ${classType}{
     public String toString() {
         return "${classType}{" +
         <#list fields as field>
-            "${field.fieldName}=" + ${field.fieldName} + ", "
+            "${field.fieldName}=" + ${field.fieldName} + ", " +
         </#list>
         '}';
     }

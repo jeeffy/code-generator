@@ -3,6 +3,7 @@ package com.jeeffy.code.util;
 import com.jeeffy.code.bean.Field;
 import com.jeeffy.code.bean.Model;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -29,7 +30,11 @@ public class ModelBuilder {
 
         model.setClassName(className);
         model.setClassType(classType);
-        model.setDbType("mysql");
+        model.setDbType(DBUtil.getDatabaseType());
+
+        Map<String, Object> map = new HashMap<>();
+        map.put("toUnderscore", new UnderscoreTemplateMethodModel());
+        model.setMap(map);
 
         return model;
     }

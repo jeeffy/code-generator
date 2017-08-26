@@ -30,7 +30,11 @@ public class ${classType}ControllerTest extends BaseTest {
 
     @Test
     public void testCreate() throws Exception {
-        String data = "";
+        ${classType} ${className} = new ${classType}();
+        <#list fields as field>
+        ${className}.set${field.fieldName?cap_first}(null);
+        </#list>
+        String data = toJSONString(${className});
         mvc.perform(post(baseUrl, data))
                 .andDo(print())
                 .andExpect(status().isOk());
@@ -38,7 +42,11 @@ public class ${classType}ControllerTest extends BaseTest {
 
     @Test
     public void testUpdate() throws Exception {
-        String data = "";
+        ${classType} ${className} = new ${classType}();
+        <#list fields as field>
+        ${className}.set${field.fieldName?cap_first}(null);
+        </#list>
+        String data = toJSONString(${className});
         mvc.perform(put(baseUrl + id, data))
                 .andDo(print())
                 .andExpect(status().isOk());

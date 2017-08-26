@@ -1,6 +1,7 @@
 package com.jeeffy.code.bean;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Jeeffy on 2017/8/25.
@@ -16,6 +17,16 @@ public class Model {
     private String dao = "jpa";
     private String id;
     private String idType;
+
+    private Map<String, Object> map;
+
+    public Map<String, Object> getMap() {
+        return map;
+    }
+
+    public void setMap(Map<String, Object> map) {
+        this.map = map;
+    }
 
     public String getDao() {
         return dao;
