@@ -33,7 +33,7 @@ public class ModelBuilder {
         model.setDbType(DBUtil.getDatabaseType());
 
         Map<String, Object> map = new HashMap<>();
-        map.put("toUnderscore", new UnderscoreTemplateMethodModel());
+        map.put("format", new FormatTemplateMethodModel());
         model.setMap(map);
 
         return model;

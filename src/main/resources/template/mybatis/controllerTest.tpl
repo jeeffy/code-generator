@@ -10,7 +10,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 public class ${classType}ControllerTest extends BaseTest {
 
-    private String baseUrl = "/${className}s/";
+    private String baseUrl = "/${map.format(className, "-")}s/";
     private ${idType} id = null;
 
     @Test

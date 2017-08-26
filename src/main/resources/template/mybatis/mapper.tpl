@@ -30,7 +30,7 @@
     </select>
 
     <select id="get" parameterType="${idType}" resultMap="${className}Map">
-        SELECT * FROM ${tableName} WHERE ${map.toUnderscore(id)} = ${r"#{"}${id}}
+        SELECT * FROM ${tableName} WHERE ${map.format(id, "_")} = ${r"#{"}${id}}
     </select>
 
     <insert id="create" parameterType="${packageName}.bean.${classType}">
@@ -55,11 +55,11 @@
         <#list fields as field>
             ${field.columnName} = ${r"#{"}${field.fieldName}}<#if field?has_next>,</#if>
         </#list>
-        WHERE ${map.toUnderscore(id)} = ${r"#{"}${id}}
+        WHERE ${map.format(id, "_")} = ${r"#{"}${id}}
     </update>
 
     <delete id="delete" parameterType="${idType}">
-        DELETE FROM ${tableName} WHERE ${map.toUnderscore(id)} = ${r"#{"}${id}}
+        DELETE FROM ${tableName} WHERE ${map.format(id, "_")} = ${r"#{"}${id}}
     </delete>
 
 

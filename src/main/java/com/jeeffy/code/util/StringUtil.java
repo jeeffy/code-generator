@@ -2,7 +2,7 @@ package com.jeeffy.code.util;
 
 public class StringUtil {
 
-	private static final char SEPARATOR = '_';
+	private static final String SEPARATOR = "_";
 	
     /**
      * wrapper string with template language
@@ -26,6 +26,10 @@ public class StringUtil {
 	}
 
 	public static String toUnderscoreCase(String str) {
+		return format(str, SEPARATOR);
+	}
+
+	public static String format(String str, String separator) {
 		if (str == null) {
 			return null;
 		}
@@ -41,7 +45,7 @@ public class StringUtil {
 			if (Character.isUpperCase(c)) {
 				if (!upperCase || !nextUpperCase) {
 					if (i > 0)
-						sb.append(SEPARATOR);
+						sb.append(separator);
 				}
 				upperCase = true;
 			} else {
@@ -52,6 +56,7 @@ public class StringUtil {
 		return sb.toString();
 	}
 
+
 	public static String camelCase(String str) {
 		if (str == null) {
 			return null;
@@ -61,7 +66,7 @@ public class StringUtil {
 		boolean upperCase = false;
 		for (int i = 0; i < str.length(); i++) {
 			char c = str.charAt(i);
-			if (c == SEPARATOR) {
+			if (SEPARATOR.equals(String.valueOf(c))) {
 				upperCase = true;
 			} else if (upperCase) {
 				sb.append(Character.toUpperCase(c));
