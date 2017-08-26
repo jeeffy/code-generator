@@ -215,10 +215,6 @@ public class DBUtil {
 		return map;
 	}
 
-	public static Map<String, String> getBeanId(String tableName){
-        return getIdMap(tableName);
-    }
-
 	public static List<Field> getFields(String tableName){
 		List<Field> fields = new ArrayList<>();
 		Map<String,String> idMap = getIdMap(tableName);

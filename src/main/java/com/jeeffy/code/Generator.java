@@ -20,7 +20,7 @@ public class Generator {
         List<String> tables = PropertiesUtil.getTables();
 
         for(String table : tables){
-            if(DBUtil.getBeanId(table).size() != 0){
+            if(DBUtil.getIdMap(table).size() > 0){
                 Model model = ModelBuilder.build(table);
                 for (String type : types){
                     FreemarkerUtil.process(model, type);
