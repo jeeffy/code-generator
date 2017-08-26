@@ -1,39 +1,33 @@
 package com.jeeffy.code.util;
 
-import java.io.*;
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import com.alibaba.fastjson.JSON;
 import com.jeeffy.code.bean.Model;
-import freemarker.template.*;
+import freemarker.template.Configuration;
+import freemarker.template.Template;
+
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.OutputStreamWriter;
+import java.io.Writer;
+import java.net.URL;
 
 public class FreemarkerUtil {
-    public static void main(String[] args) throws Exception {
-        Configuration cfg = new Configuration(Configuration.VERSION_2_3_23);
-        URL templatePath = FreemarkerUtil.class.getResource("/template/");
-        cfg.setDirectoryForTemplateLoading(new File(templatePath.toURI()));
-        cfg.setDefaultEncoding("UTF-8");
-        //cfg.setTemplateExceptionHandler(TemplateExceptionHandler.RETHROW_HANDLER);
-        //cfg.setLogTemplateExceptions(false);
+    private static final Configuration cfg = new Configuration(Configuration.VERSION_2_3_23);
 
+    public static void process(Model model, String type) {
+        try {
+            URL templatePath = FreemarkerUtil.class.getResource("/template/");
+            cfg.setDirectoryForTemplateLoading(new File(templatePath.toURI()));
+            cfg.setDefaultEncoding("UTF-8");
 
-        Model model = new Model();
-        model.setName("user");
-        model.setPackageName("com.jeeffy");
-        model.setTable("sys_user");
-        model.setClassType("User");
-        model.setClassName("user");
-        model.setId("id");
-        model.setIdType("Integer");
+            String template = model.getDao() + "/" + type + ".tpl";
+            Template temp = cfg.getTemplate(template);
 
-        Template temp = cfg.getTemplate("jpa/dao.tpl");
+            String outPath = FileUtil.getOutPath(model, type);
+            Writer out = new OutputStreamWriter(new FileOutputStream(new File(outPath)));
+            temp.process(model, out);
+        }catch (Exception e){
+            throw new RuntimeException(e);
+        }
 
-        String path = "D:/test/a.java";
-        Writer out = new OutputStreamWriter(new FileOutputStream(new File(path)));
-        temp.process(model, out);
     }
 }

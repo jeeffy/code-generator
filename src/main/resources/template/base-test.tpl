@@ -1,6 +1,5 @@
 package package ${packageName};
 
-import com.alibaba.fastjson.JSONObject;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.runner.RunWith;
@@ -21,7 +20,7 @@ import java.util.Map;
 public class BaseTest {
 
     protected MockMvc mvc;
-    private String token = null;
+    private String token = "";
 
     @Autowired
     private WebApplicationContext context;
@@ -76,27 +75,12 @@ public class BaseTest {
     }
 
     public String toJSONString(Object object){
-        return JSONObject.toJSONString(object);
+        ObjectMapper mapper = new ObjectMapper();
+        try {
+            return mapper.writeValueAsString(object);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
     }
 
-    public static class FormDataBuilder{
-            private JSONObject json = new JSONObject();
-
-            public FormDataBuilder put(String key, Object value){
-                json.put(key, value);
-                return this;
-            }
-
-            public String build(){
-                StringBuilder sb = new StringBuilder();
-                for (Map.Entry entry : json.entrySet()){
-                    sb.append(entry.getKey()).append("=").append(entry.getValue()).append("&");
-                }
-                String data = sb.toString();
-                if (data.length()>0){
-                    return data.substring(0,data.lastIndexOf('&'));
-                }
-                return null;
-            }
-        }
 }

@@ -6,14 +6,40 @@ import java.util.List;
  * Created by Jeeffy on 2017/8/25.
  */
 public class Model {
-    private String name;
-    private String table;
-    private String packageName;
-    private List<Field> fields;
+
     private String classType;
     private String className;
+    private String tableName;
+    private String packageName;
+    private List<Field> fields;
+    private String dbType;
+    private String dao = "jpa";
     private String id;
     private String idType;
+
+    public String getDao() {
+        return dao;
+    }
+
+    public void setDao(String dao) {
+        this.dao = dao;
+    }
+
+    public String getTableName() {
+        return tableName;
+    }
+
+    public void setTableName(String tableName) {
+        this.tableName = tableName;
+    }
+
+    public String getDbType() {
+        return dbType;
+    }
+
+    public void setDbType(String dbType) {
+        this.dbType = dbType;
+    }
 
     public String getClassType() {
         return classType;
@@ -47,21 +73,6 @@ public class Model {
         this.idType = idType;
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getTable() {
-        return table;
-    }
-
-    public void setTable(String table) {
-        this.table = table;
-    }
 
     public String getPackageName() {
         return packageName;
@@ -77,5 +88,20 @@ public class Model {
 
     public void setFields(List<Field> fields) {
         this.fields = fields;
+    }
+
+    @Override
+    public String toString() {
+        return "Model{" +
+                "classType='" + classType + '\'' +
+                ", className='" + className + '\'' +
+                ", tableName='" + tableName + '\'' +
+                ", packageName='" + packageName + '\'' +
+                ", fields=" + fields +
+                ", dbType='" + dbType + '\'' +
+                ", dao='" + dao + '\'' +
+                ", id='" + id + '\'' +
+                ", idType='" + idType + '\'' +
+                '}';
     }
 }

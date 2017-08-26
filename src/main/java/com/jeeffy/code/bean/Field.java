@@ -4,27 +4,27 @@ package com.jeeffy.code.bean;
  * Created by Jeeffy on 2017/8/25.
  */
 public class Field {
-    private String name;
-    private String column;
+    private String fieldName;
+    private String columnName;
     private String javaType;
     private String jdbcType;
     private String comment;
-    private Boolean isId;
+    private Boolean isId = false;
 
-    public String getName() {
-        return name;
+    public String getFieldName() {
+        return fieldName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setFieldName(String fieldName) {
+        this.fieldName = fieldName;
     }
 
-    public String getColumn() {
-        return column;
+    public String getColumnName() {
+        return columnName;
     }
 
-    public void setColumn(String column) {
-        this.column = column;
+    public void setColumnName(String columnName) {
+        this.columnName = columnName;
     }
 
     public String getJavaType() {
@@ -57,5 +57,17 @@ public class Field {
 
     public void setIsId(Boolean isId) {
         this.isId = isId;
+    }
+
+    @Override
+    public String toString() {
+        return "Field{" +
+                "fieldName='" + fieldName + '\'' +
+                ", columnName='" + columnName + '\'' +
+                ", javaType='" + javaType + '\'' +
+                ", jdbcType='" + jdbcType + '\'' +
+                ", comment='" + comment + '\'' +
+                ", isId=" + isId +
+                '}';
     }
 }

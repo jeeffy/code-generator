@@ -1,7 +1,12 @@
 package com.jeeffy.code.util;
 
+import com.jeeffy.code.constant.Const;
+
 import java.io.InputStream;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Properties;
+import java.util.stream.Collectors;
 
 
 public class PropertiesUtil {
@@ -33,20 +38,20 @@ public class PropertiesUtil {
 		return location;
 	}
 
-	public static String getModuleName(){
-		String str = prop.getProperty("package");
-		if(str!=null){
-			str = str.trim().substring(str.lastIndexOf(".")+1);
+	public static List<String> getTables() throws Exception {
+		List<String> tables = null;
+		String tableStr = prop.getProperty("tables");
+		if(tableStr!=null){
+			tableStr = tableStr.trim();
 		}
-		return str;
-	}
-
-	public static String getTables(){
-		String str = prop.getProperty("tables");
-		if(str!=null){
-			str = str.trim();
+		if ("__all__".equals(tableStr)){
+			return DBUtil.getAllTables();
 		}
-		return str;
+		if (tableStr != null && !"".equals(tableStr.trim())) {
+			tables = Arrays.stream(tableStr.trim().split(","))
+					.map(String::trim).collect(Collectors.toList());
+		}
+		return tables;
 	}
 
 	public static String getRemovableTablePrefix(){
@@ -57,21 +62,14 @@ public class PropertiesUtil {
 		return str;
 	}
 
-	public static String getDaoLayerImplement(){
-		String str = prop.getProperty("dao-layer-implement");
+	public static String getDao(){
+		String str = prop.getProperty("dao");
 		if (str==null || "".equals(str)){
-			str = "mybatis";
+			str = Const.DAO_JPA;
 		}else{
 			str = str.trim().toLowerCase();
 		}
 		return str;
 	}
 
-	public static boolean isJpa(){
-		String str = getDaoLayerImplement();
-		if ("jpa".equals(str)){
-			return true;
-		}
-		return false;
-	}
 }

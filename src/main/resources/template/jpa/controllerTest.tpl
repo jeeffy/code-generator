@@ -30,7 +30,11 @@ public class ${classType}ControllerTest extends BaseTest {
 
         @Test
         public void testSave() throws Exception {
-            String data = "";
+            ${classType} ${className} = new ${classType}();
+            <#list fields as field>
+            ${className}.set${field.fieldName?cap_first}(null);
+            </#list>
+            String data = toJSONString(${className});
             mvc.perform(post(baseUrl, data))
                     .andDo(print())
                     .andExpect(status().isOk());

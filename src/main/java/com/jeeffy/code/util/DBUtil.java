@@ -1,5 +1,7 @@
 package com.jeeffy.code.util;
 
+import com.jeeffy.code.bean.Field;
+
 import java.io.InputStream;
 import java.sql.*;
 import java.util.*;
@@ -212,4 +214,28 @@ public class DBUtil {
 		
 		return map;
 	}
+
+	public static Map<String, String> getBeanId(String tableName){
+        return getIdMap(tableName);
+    }
+
+	public static List<Field> getFields(String tableName){
+		List<Field> fields = new ArrayList<>();
+		Map<String,String> idMap = getIdMap(tableName);
+		String id = idMap.get("id");
+		for (Map.Entry<String, String> entry : getColumnNameAndJavaTypeMap(tableName).entrySet()){
+			String key = entry.getKey();
+			Field field = new Field();
+			field.setColumnName(key);
+			String fieldName = StringUtil.camelCase(key);
+			field.setFieldName(fieldName);
+			field.setJavaType(entry.getValue());
+			if (id.equals(fieldName)){
+				field.setIsId(true);
+			}
+			fields.add(field);
+		}
+		return fields;
+	}
+
 }
