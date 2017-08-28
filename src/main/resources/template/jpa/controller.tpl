@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import ${packageName}.bean.${classType};
 import ${packageName}.service.${classType}Service;
 
-@RequestMapping(value = "/${map.format(className, "-")}s")
+@RequestMapping(value = "/${format(className, "-")}s")
 @RestController
 public class ${classType}Controller {
 	

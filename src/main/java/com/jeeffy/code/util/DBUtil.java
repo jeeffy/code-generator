@@ -2,6 +2,7 @@ package com.jeeffy.code.util;
 
 import com.jeeffy.code.bean.Field;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.sql.*;
 import java.util.*;
@@ -15,13 +16,13 @@ public class DBUtil {
 
     static {
         prop = new Properties();
-        try {
-            InputStream stream = DBUtil.class.getResourceAsStream("/jdbc.properties");
-            prop.load(stream);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
+		InputStream stream = DBUtil.class.getResourceAsStream("/jdbc.properties");
+		try {
+			prop.load(stream);
+		} catch (IOException e) {
+			throw new RuntimeException(e);
+		}
+	}
 
     /**
      * get db type from jdbc
@@ -36,7 +37,7 @@ public class DBUtil {
 				return ORACLE;
 			}
 		}catch (Exception e) {
-			e.printStackTrace();
+			throw new RuntimeException(e);
 		}
 		return null;
 	}
@@ -87,29 +88,28 @@ public class DBUtil {
 				String columnName = colRet.getString("COLUMN_NAME");
 				int digits = colRet.getInt("DECIMAL_DIGITS");
 				int dataType = colRet.getInt("DATA_TYPE");
-				String columnType=null;
+				String javaType=null;
 				String typeName = colRet.getString("TYPE_NAME");
 				int columnSize = colRet.getInt("COLUMN_SIZE");
 				if("mysql".equals(getDatabaseType())){
-					columnType = getDataType(dataType,digits);
+					javaType = getJavaType(dataType,digits);
 				}else if("oracle".equals(getDatabaseType())){
-					columnType = getDataTypeForOracle(typeName,columnSize,digits);
+					javaType = getJavaType(typeName,columnSize,digits);
 				}
-				colMap.put(columnName, columnType);
+				colMap.put(columnName, javaType);
 			}
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}
 		return colMap;
 	}
-	
 
 	/**
-	 * translate database type into java type
+	 * convert jdbc type into java type
 	 * @param type
 	 * @return
 	 */
-	private static String getDataType(int type,int digits){
+	private static String getJavaType(int type, int digits){
 	        String dataType="";
 
 	        switch(type){
@@ -161,7 +161,7 @@ public class DBUtil {
 	        return dataType;
 	   }
 	   
-	private static String getDataTypeForOracle(String typeName,int columnSize,int digits){
+	private static String getJavaType(String typeName, int columnSize, int digits){
         String dataType="";
 
         if("VARCHAR2".equals(typeName)){
@@ -201,10 +201,10 @@ public class DBUtil {
 	 */
 	public static Map<String,String> getIdMap(String tableName){
 		Map<String,String> map = new HashMap<>();
-		try(ResultSet pkRSet = getConnection().getMetaData().getPrimaryKeys(null, null, tableName)) {
-			while( pkRSet.next() ) {
-				String pk = pkRSet.getString("COLUMN_NAME");
-				String pkJavaType = getColumnNameAndJavaTypeMap(pkRSet.getString("TABLE_NAME")).get(pk);
+		try(ResultSet pkResultSet = getConnection().getMetaData().getPrimaryKeys(null, null, tableName)) {
+			while( pkResultSet.next() ) {
+				String pk = pkResultSet.getString("COLUMN_NAME");
+				String pkJavaType = getColumnNameAndJavaTypeMap(tableName).get(pk);
                 map.put("id", StringUtil.camelCase(pk));
                 map.put("idType", pkJavaType);
 			} 
@@ -215,23 +215,45 @@ public class DBUtil {
 		return map;
 	}
 
-	public static List<Field> getFields(String tableName){
+	/**
+	 * get column information by table name
+	 * @param tableName
+	 * @return
+	 */
+	public static List<Field> getColumns(String tableName){
 		List<Field> fields = new ArrayList<>();
 		Map<String,String> idMap = getIdMap(tableName);
 		String id = idMap.get("id");
-		for (Map.Entry<String, String> entry : getColumnNameAndJavaTypeMap(tableName).entrySet()){
-			String key = entry.getKey();
-			Field field = new Field();
-			field.setColumnName(key);
-			String fieldName = StringUtil.camelCase(key);
-			field.setFieldName(fieldName);
-			field.setJavaType(entry.getValue());
-			if (id.equals(fieldName)){
-				field.setIsId(true);
+		try(ResultSet colRet = getConnection().getMetaData().getColumns(null, "%", tableName, "%")) {
+			while (colRet.next()) {
+				String columnName = colRet.getString("COLUMN_NAME");
+				int digits = colRet.getInt("DECIMAL_DIGITS");
+				int dataType = colRet.getInt("DATA_TYPE");
+				String javaType=null;
+				String typeName = colRet.getString("TYPE_NAME");
+				int columnSize = colRet.getInt("COLUMN_SIZE");
+				if("mysql".equals(getDatabaseType())){
+					javaType = getJavaType(dataType,digits);
+				}else if("oracle".equals(getDatabaseType())){
+					javaType = getJavaType(typeName,columnSize,digits);
+				}
+				String remarks = colRet.getString("REMARKS");
+
+				Field field = new Field();
+				String fieldName = StringUtil.camelCase(columnName);
+				field.setFieldName(fieldName);
+				if (id.equals(fieldName)){
+					field.setIsId(true);
+				}
+				field.setColumnName(columnName);
+				field.setComment(remarks);
+				field.setJavaType(javaType);
+
+				fields.add(field);
 			}
-			fields.add(field);
+		} catch (Exception e) {
+			throw new RuntimeException(e);
 		}
 		return fields;
 	}
-
 }

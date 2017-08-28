@@ -1,5 +1,7 @@
 package package ${packageName};
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.runner.RunWith;
@@ -12,8 +14,6 @@ import org.springframework.test.web.servlet.RequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
-
-import java.util.Map;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = Application.class)
@@ -74,7 +74,7 @@ public class BaseTest {
                 .content(data==null?"":data);
     }
 
-    public String toJSONString(Object object){
+    public String toJsonString(Object object){
         ObjectMapper mapper = new ObjectMapper();
         try {
             return mapper.writeValueAsString(object);

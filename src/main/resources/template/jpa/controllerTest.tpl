@@ -1,8 +1,8 @@
 package ${packageName}.controller;
 
-import ${packageName}.BaseTest;
 import org.junit.Test;
-import org.springframework.http.MediaType;
+import ${packageName}.BaseTest;
+import ${packageName}.bean.${classType};
 
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -10,7 +10,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 public class ${classType}ControllerTest extends BaseTest {
 
-    private String baseUrl = "/${map.format(className, "-")}s/";
+    private String baseUrl = "/${format(className, "-")}s/";
     private ${idType} id = null;
 
     @Test
@@ -34,7 +34,7 @@ public class ${classType}ControllerTest extends BaseTest {
             <#list fields as field>
             ${className}.set${field.fieldName?cap_first}(null);
             </#list>
-            String data = toJSONString(${className});
+            String data = toJsonString(${className});
             mvc.perform(post(baseUrl, data))
                     .andDo(print())
                     .andExpect(status().isOk());

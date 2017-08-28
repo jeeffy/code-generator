@@ -21,7 +21,7 @@ public class ModelBuilder {
         model.setId(idMap.get("id"));
         model.setIdType(idMap.get("idType"));
 
-        List<Field> fields = DBUtil.getFields(tableName);
+        List<Field> fields = DBUtil.getColumns(tableName);
         model.setFields(fields);
 
         String className = StringUtil.removePrefix(tableName, PropertiesUtil.getRemovableTablePrefix());
@@ -31,10 +31,6 @@ public class ModelBuilder {
         model.setClassName(className);
         model.setClassType(classType);
         model.setDbType(DBUtil.getDatabaseType());
-
-        Map<String, Object> map = new HashMap<>();
-        map.put("format", new FormatTemplateMethodModel());
-        model.setMap(map);
 
         return model;
     }

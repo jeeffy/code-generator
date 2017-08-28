@@ -1,5 +1,8 @@
 package com.jeeffy.code.bean;
 
+import com.jeeffy.code.util.FormatTemplateMethodModel;
+import freemarker.template.TemplateModel;
+
 import java.util.List;
 import java.util.Map;
 
@@ -18,16 +21,15 @@ public class Model {
     private String id;
     private String idType;
 
-    private Map<String, Object> map;
+    private TemplateModel format = new FormatTemplateMethodModel();
 
-    public Map<String, Object> getMap() {
-        return map;
+    public TemplateModel getFormat() {
+        return format;
     }
 
-    public void setMap(Map<String, Object> map) {
-        this.map = map;
+    public void setFormat(TemplateModel format) {
+        this.format = format;
     }
-
     public String getDao() {
         return dao;
     }

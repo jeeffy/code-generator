@@ -1,6 +1,21 @@
+<#assign importJacksonAnnotation=false />
+<#assign importDateTimeFormat=false />
+<#list fields as field>
+    <#if field.isId >
+    <#elseif field.fieldName=='createTime'|| field.fieldName=='updateTime'>
+        <#assign importJacksonAnnotation=true />
+    <#elseif field.javaType=='Date'>
+        <#assign importDateTimeFormat=true />
+    </#if>
+</#list>
 package ${packageName}.bean;
 
-
+<#if importJacksonAnnotation >
+import com.fasterxml.jackson.annotation.*;
+</#if>
+<#if importDateTimeFormat >
+import org.springframework.format.annotation.DateTimeFormat;
+</#if>
 import javax.persistence.*;
 import java.util.Date;
 
@@ -13,6 +28,12 @@ public class ${classType}{
     <#if field.isId >
     @Id
     @GeneratedValue
+    <#elseif field.fieldName=='createTime'|| field.fieldName=='updateTime'>
+    @JsonIgnore
+    @Transient
+    <#elseif field.javaType=='Date'>
+    @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
     </#if>
     private ${field.javaType} ${field.fieldName};
 

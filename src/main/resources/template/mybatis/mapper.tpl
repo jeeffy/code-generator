@@ -30,7 +30,7 @@
     </select>
 
     <select id="get" parameterType="${idType}" resultMap="${className}Map">
-        SELECT * FROM ${tableName} WHERE ${map.format(id, "_")} = ${r"#{"}${id}}
+        SELECT * FROM ${tableName} WHERE ${format(id)} = ${r"#{"}${id}}
     </select>
 
     <insert id="create" parameterType="${packageName}.bean.${classType}">
@@ -55,11 +55,11 @@
         <#list fields as field>
             ${field.columnName} = ${r"#{"}${field.fieldName}}<#if field?has_next>,</#if>
         </#list>
-        WHERE ${map.format(id, "_")} = ${r"#{"}${id}}
+        WHERE ${format(id)} = ${r"#{"}${id}}
     </update>
 
     <delete id="delete" parameterType="${idType}">
-        DELETE FROM ${tableName} WHERE ${map.format(id, "_")} = ${r"#{"}${id}}
+        DELETE FROM ${tableName} WHERE ${format(id)} = ${r"#{"}${id}}
     </delete>
 
 
