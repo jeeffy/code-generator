@@ -31,9 +31,9 @@ public class DBUtil {
     public static String getDatabaseType(){
 		try {
 			String driverClassName = prop.getProperty("jdbc.driverClassName");
-			if(driverClassName.contains("mysql")){
+			if(driverClassName.contains(MYSQL)){
 				return MYSQL;
-			}else if(driverClassName.contains("oracle")){
+			}else if(driverClassName.contains(ORACLE)){
 				return ORACLE;
 			}
 		}catch (Exception e) {
@@ -65,9 +65,9 @@ public class DBUtil {
 		try {
 			DatabaseMetaData meta= getConnection().getMetaData();
 
-			if("mysql".equals(getDatabaseType())){
+			if(MYSQL.equals(getDatabaseType())){
 				rs = meta.getTables(null, "%","%",new String[]{"TABLE"});
-			}else if("oracle".equals(getDatabaseType())){
+			}else if(ORACLE.equals(getDatabaseType())){
 				rs = meta.getTables(null, getDatabaseInstance(),"%",new String[]{"TABLE"});
 			}
 			while(rs.next()){
@@ -91,9 +91,9 @@ public class DBUtil {
 				String javaType=null;
 				String typeName = colRet.getString("TYPE_NAME");
 				int columnSize = colRet.getInt("COLUMN_SIZE");
-				if("mysql".equals(getDatabaseType())){
+				if(MYSQL.equals(getDatabaseType())){
 					javaType = getJavaType(dataType,digits);
-				}else if("oracle".equals(getDatabaseType())){
+				}else if(ORACLE.equals(getDatabaseType())){
 					javaType = getJavaType(typeName,columnSize,digits);
 				}
 				colMap.put(columnName, javaType);
@@ -232,9 +232,9 @@ public class DBUtil {
 				String javaType=null;
 				String typeName = colRet.getString("TYPE_NAME");
 				int columnSize = colRet.getInt("COLUMN_SIZE");
-				if("mysql".equals(getDatabaseType())){
+				if(MYSQL.equals(getDatabaseType())){
 					javaType = getJavaType(dataType,digits);
-				}else if("oracle".equals(getDatabaseType())){
+				}else if(ORACLE.equals(getDatabaseType())){
 					javaType = getJavaType(typeName,columnSize,digits);
 				}
 				String remarks = colRet.getString("REMARKS");
