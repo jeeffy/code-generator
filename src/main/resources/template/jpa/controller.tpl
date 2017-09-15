@@ -16,7 +16,7 @@ public class ${classType}Controller {
 	
 	
     @GetMapping
-    public Page<${classType}> list(${classType} ${className}, int page) {
+    public Page<${classType}> list(${classType} ${className}, Integer page) {
         return ${className}Service.list(${className}, page);
     }
 

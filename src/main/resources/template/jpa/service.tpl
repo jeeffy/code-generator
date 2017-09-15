@@ -13,9 +13,9 @@ public class ${classType}Service {
     @Autowired
 	private ${classType}Dao ${className}Dao;
 
-	public Page<${classType}> list(${classType} ${className}, int page) {
+	public Page<${classType}> list(${classType} ${className}, Integer page) {
 		Example<${classType}> example = Example.of(${className});
-		Pageable pageable = new PageRequest(page, 20);
+		Pageable pageable = new PageRequest(page == null ? 0 : page, 20);
 		return ${className}Dao.findAll(example, pageable);
 	}
 
