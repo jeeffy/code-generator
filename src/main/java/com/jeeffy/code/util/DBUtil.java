@@ -237,7 +237,7 @@ public class DBUtil {
 				}else if(ORACLE.equals(getDatabaseType())){
 					javaType = getJavaType(typeName,columnSize,digits);
 				}
-				String remarks = colRet.getString("REMARKS");
+				String remarks = colRet.getString("REMARKS").replaceAll("(\\r\\n|\\r|\\n|\\n\\r)", " ");
 
 				Field field = new Field();
 				String fieldName = StringUtil.camelCase(columnName);

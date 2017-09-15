@@ -13,6 +13,7 @@ package ${packageName}.bean;
 <#if importJacksonAnnotation >
 import com.fasterxml.jackson.annotation.*;
 </#if>
+import io.swagger.annotations.ApiModelProperty;
 <#if importDateTimeFormat >
 import org.springframework.format.annotation.DateTimeFormat;
 </#if>
@@ -34,6 +35,9 @@ public class ${classType}{
     <#elseif field.javaType=='Date'>
     @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
     @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
+    </#if>
+    <#if field.comment??&&field.comment!='' >
+    @ApiModelProperty("${field.comment}")
     </#if>
     private ${field.javaType} ${field.fieldName};
 
