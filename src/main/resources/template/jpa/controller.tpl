@@ -1,8 +1,7 @@
 package ${packageName}.controller;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 
 import ${packageName}.bean.${classType};
@@ -16,11 +15,11 @@ public class ${classType}Controller {
 	private ${classType}Service ${className}Service;
 	
 	
-	@GetMapping
-    public List<${classType}> list(${classType} ${className}) {
-		return ${className}Service.list(${className});
+    @GetMapping
+    public Page<${classType}> list(${classType} ${className}, int page) {
+        return ${className}Service.list(${className}, page);
     }
-	
+
 	@GetMapping("/{${id}}")
     public ${classType} get(@PathVariable ${idType} ${id}) {
 		return ${className}Service.get(${id});

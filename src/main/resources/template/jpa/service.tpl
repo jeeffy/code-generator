@@ -1,9 +1,7 @@
 package ${packageName}.service;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Example;
+import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -14,12 +12,13 @@ import ${packageName}.bean.${classType};
 public class ${classType}Service {
     @Autowired
 	private ${classType}Dao ${className}Dao;
-	
-	public List<${classType}> list(${classType} ${className}) {
-	    Example<${classType}> example = Example.of(${className});
-        return ${className}Dao.findAll(example);
+
+	public Page<${classType}> list(${classType} ${className}, int page) {
+		Example<${classType}> example = Example.of(${className});
+		Pageable pageable = new PageRequest(page, 20);
+		return ${className}Dao.findAll(example, pageable);
 	}
-	
+
 	public ${classType} get(${idType} ${id}) {
 		return ${className}Dao.findOne(${id});
 	}
