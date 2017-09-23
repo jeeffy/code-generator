@@ -18,7 +18,7 @@ public class ${classType}ControllerTest extends BaseTest {
             String data = "";
             mvc.perform(get(baseUrl, data))
                     .andDo(print())
-                    .andExpect(jsonPath("$").isArray());
+                    .andExpect(jsonPath("$.content").isArray());
         }
 
         @Test
