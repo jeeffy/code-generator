@@ -28,7 +28,7 @@ public class ${classType}{
 <#list fields as field>
     <#if field.isId >
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     <#elseif field.fieldName=='createTime'|| field.fieldName=='updateTime'>
     @JsonIgnore
     @Transient

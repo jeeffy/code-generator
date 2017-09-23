@@ -35,9 +35,9 @@ public class BaseTest {
     }
 
     public RequestBuilder get(String url, String data){
-        return MockMvcRequestBuilders.get(url)
-                .header("Token",token)
-                .content(data==null?"":data);
+        data =(data==null ? "" : data);
+        return MockMvcRequestBuilders.get(url + "?" + data)
+                .header("Token",token);
     }
 
     public RequestBuilder post(String url, String data){
