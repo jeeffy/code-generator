@@ -36,9 +36,4 @@ public class ${classType}Controller {
 		return ${className}Service.update(${className});
     }
     
-    @DeleteMapping("/{${id}}")
-    public void delete(@PathVariable ${idType} ${id}) {
-		${className}Service.delete(${id});
-    }
-    
 }

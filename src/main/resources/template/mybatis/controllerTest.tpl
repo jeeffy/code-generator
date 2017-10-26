@@ -52,7 +52,6 @@ public class ${classType}ControllerTest extends BaseTest {
                 .andExpect(status().isOk());
     }
 
-
     @Test
     public void testDelete() throws Exception {
         mvc.perform(delete(baseUrl + id, null))

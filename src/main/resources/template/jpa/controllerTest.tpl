@@ -47,5 +47,4 @@ public class ${classType}ControllerTest extends BaseTest {
                     .andExpect(status().isOk());
         }
 
-
 }
