@@ -21,6 +21,8 @@ public class FileUtil {
 				dir = mainResourcesDir + packageDir +"/" + type;
 			}else if(Const.TYPE_CONTROLLER_TEST.equals(type)){
 				dir = testJavaDir + packageDir +"/" + Const.TYPE_CONTROLLER;
+			}else if(Const.TYPE_SERVICE_TEST.equals(type)){
+				dir = testJavaDir + packageDir +"/" + Const.TYPE_SERVICE;
 			}else{
 				dir = mainJavaDir + packageDir +"/" + type;
 			}
@@ -59,6 +61,8 @@ public class FileUtil {
 
 		if(Const.TYPE_CONTROLLER_TEST.equals(type)){
 			directory = testJavaDir + packageDir + "/" + Const.TYPE_CONTROLLER + "/";
+		}else if(Const.TYPE_SERVICE_TEST.equals(type)){
+			directory = testJavaDir + packageDir + "/" + Const.TYPE_SERVICE + "/";
 		}else if(Const.TYPE_MAPPER.equals(type)){
 			directory = mainResourcesDir + packageDir + "/" + type + "/";
 		}else{
