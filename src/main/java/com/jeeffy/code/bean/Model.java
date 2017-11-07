@@ -15,6 +15,7 @@ public class Model {
     private String className;
     private String tableName;
     private String packageName;
+    private String module;
     private List<Field> fields;
     private String dbType;
     private String dao = "jpa";
@@ -22,6 +23,14 @@ public class Model {
     private String idType;
 
     private TemplateModel format = new FormatTemplateMethodModel();
+
+    public String getModule() {
+        return module;
+    }
+
+    public void setModule(String module) {
+        this.module = module;
+    }
 
     public TemplateModel getFormat() {
         return format;

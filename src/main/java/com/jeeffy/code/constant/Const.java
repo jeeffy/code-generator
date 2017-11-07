@@ -17,5 +17,5 @@ public class Const {
     public static final String TYPE_BEAN = "bean";
 
     public static final String[] CODE_JPA = {TYPE_CONTROLLER, TYPE_CONTROLLER_TEST, TYPE_SERVICE_TEST, TYPE_SERVICE, TYPE_DAO, TYPE_BEAN};
-    public static final String[] CODE_MYBATIS = {TYPE_CONTROLLER, TYPE_CONTROLLER_TEST, TYPE_SERVICE, TYPE_DAO, TYPE_BEAN, TYPE_MAPPER};
+    public static final String[] CODE_MYBATIS = {TYPE_CONTROLLER, TYPE_SERVICE_TEST, TYPE_SERVICE, TYPE_DAO, TYPE_BEAN, TYPE_MAPPER};
 }

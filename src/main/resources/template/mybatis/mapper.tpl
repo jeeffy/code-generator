@@ -24,7 +24,7 @@
         </where>
     </sql>
 
-    <select id="list" parameterType="map" resultMap="${className}Map">
+    <select id="list" parameterType="${packageName}.bean.${classType}" resultMap="${className}Map">
         SELECT * FROM ${tableName}
         <include refid="queryCondition" />
     </select>

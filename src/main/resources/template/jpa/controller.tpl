@@ -7,13 +7,12 @@ import org.springframework.web.bind.annotation.*;
 import ${packageName}.bean.${classType};
 import ${packageName}.service.${classType}Service;
 
-@RequestMapping(value = "/${format(className, "-")}s")
+@RequestMapping(value = "/${module}/${format(className, "-")}s")
 @RestController
 public class ${classType}Controller {
 	
 	@Autowired
 	private ${classType}Service ${className}Service;
-	
 	
     @GetMapping
     public Page<${classType}> list(${classType} ${className}, Integer page) {

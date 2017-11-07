@@ -18,7 +18,7 @@ public class FileUtil {
 		for (String type : types){
 			String dir;
 			if (Const.TYPE_MAPPER.equals(type)){
-				dir = mainResourcesDir + packageDir +"/" + type;
+				dir = mainResourcesDir +"/mapper/" + PropertiesUtil.getModule();
 			}else if(Const.TYPE_CONTROLLER_TEST.equals(type)){
 				dir = testJavaDir + packageDir +"/" + Const.TYPE_CONTROLLER;
 			}else if(Const.TYPE_SERVICE_TEST.equals(type)){
@@ -41,11 +41,11 @@ public class FileUtil {
 	public static String getOutPath(Model model, String type){
 		String outPath = null;
 		if (Const.TYPE_BEAN.equals(type)){
-			outPath = FileUtil.getDirectory(type) + model.getClassType() + ".java";
+			outPath = getDirectory(type) + model.getClassType() + ".java";
 		}else if(Const.TYPE_MAPPER.equals(type)){
-			outPath = FileUtil.getDirectory(type) + model.getClassType() + StringUtil.firstUpperCase(type) + ".xml";
+			outPath = getDirectory(type) + model.getClassType() + StringUtil.firstUpperCase(type) + ".xml";
 		}else {
-			outPath = FileUtil.getDirectory(type) + model.getClassType() + StringUtil.firstUpperCase(type) + ".java";
+			outPath = getDirectory(type) + model.getClassType() + StringUtil.firstUpperCase(type) + ".java";
 		}
 		return outPath;
 	}
@@ -64,7 +64,7 @@ public class FileUtil {
 		}else if(Const.TYPE_SERVICE_TEST.equals(type)){
 			directory = testJavaDir + packageDir + "/" + Const.TYPE_SERVICE + "/";
 		}else if(Const.TYPE_MAPPER.equals(type)){
-			directory = mainResourcesDir + packageDir + "/" + type + "/";
+			directory = mainResourcesDir +"/mapper/" + PropertiesUtil.getModule() + "/";
 		}else{
 			directory = mainJavaDir + packageDir + "/" + type + "/";
 		}

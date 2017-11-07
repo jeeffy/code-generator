@@ -30,6 +30,11 @@ public class PropertiesUtil {
 		return packageName;
 	}
 
+	public static String getModule(){
+		String packageName = getPackage();
+		return packageName.substring(packageName.lastIndexOf('.')+1);
+	}
+
 	public static String getLocation(){
 		String location = prop.getProperty("location");
 		if(location!=null){

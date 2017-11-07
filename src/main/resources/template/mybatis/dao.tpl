@@ -7,7 +7,7 @@ import ${packageName}.bean.${classType};
 
 public interface ${classType}Dao {
 
-	List<${classType}> list(Map map);
+	List<${classType}> list(${classType} ${className});
 	${classType} get(${idType} ${id});
 	${idType} create(${classType} ${className});
 	int update(${classType} ${className});

@@ -15,7 +15,6 @@ public class ${classType}Controller {
 	@Autowired
 	private ${classType}Service ${className}Service;
 	
-	
 	@GetMapping
     public List<${classType}> list(${classType} ${className}) {
 		return ${className}Service.list(${className});
