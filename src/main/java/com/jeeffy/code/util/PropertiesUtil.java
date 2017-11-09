@@ -43,6 +43,20 @@ public class PropertiesUtil {
 		return location;
 	}
 
+	public static List<String> getLayers() throws Exception {
+		List<String> layers = null;
+		String layerStr = prop.getProperty("layers");
+		if(layerStr!=null){
+			layerStr = layerStr.trim();
+		}
+
+		if (layerStr != null && !"".equals(layerStr.trim())) {
+			layers = Arrays.stream(layerStr.trim().split(","))
+					.map(String::trim).collect(Collectors.toList());
+		}
+		return layers;
+	}
+
 	public static List<String> getTables() throws Exception {
 		List<String> tables = null;
 		String tableStr = prop.getProperty("tables");
@@ -70,7 +84,7 @@ public class PropertiesUtil {
 	public static String getDao(){
 		String str = prop.getProperty("dao");
 		if (str==null || "".equals(str)){
-			str = Const.DAO_JPA;
+			str = "jpa";
 		}else{
 			str = str.trim().toLowerCase();
 		}

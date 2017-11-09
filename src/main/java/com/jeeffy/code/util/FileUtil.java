@@ -5,9 +5,10 @@ import com.jeeffy.code.bean.Model;
 import com.jeeffy.code.constant.Const;
 
 import java.io.File;
+import java.util.List;
 
 public class FileUtil {
-	public static void mkdirs(String[] types){
+	public static void mkdirs(List<String> types){
 		String location = PropertiesUtil.getLocation();
 		String packageDir = "/" + PropertiesUtil.getPackage().replace(".", "/");
 		

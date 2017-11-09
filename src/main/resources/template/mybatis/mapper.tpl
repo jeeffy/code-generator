@@ -13,7 +13,7 @@
     </#list>
     </resultMap>
 
-    <sql id="queryCondition">
+    <sql id="where">
         <where>
         <#list fields as field>
             <if test="${field.fieldName} != null and ${field.fieldName} != ''">
@@ -26,7 +26,7 @@
 
     <select id="list" parameterType="${packageName}.bean.${classType}" resultMap="${className}Map">
         SELECT * FROM ${tableName}
-        <include refid="queryCondition" />
+        <include refid="where" />
     </select>
 
     <select id="get" parameterType="${idType}" resultMap="${className}Map">
@@ -61,6 +61,5 @@
     <delete id="delete" parameterType="${idType}">
         DELETE FROM ${tableName} WHERE ${format(id)} = ${r"#{"}${id}}
     </delete>
-
 
 </mapper>

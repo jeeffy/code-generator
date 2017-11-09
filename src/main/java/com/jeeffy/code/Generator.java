@@ -9,12 +9,7 @@ import java.util.List;
 public class Generator {
 
 	public static void main(String[] args) throws Exception {
-        String[] types;
-        if (Const.DAO_MYBATIS.equals(PropertiesUtil.getDao())){
-            types = Const.CODE_MYBATIS;
-        }else {
-            types = Const.CODE_JPA;
-        }
+        List<String> types = PropertiesUtil.getLayers();
 
 		FileUtil.mkdirs(types);
         List<String> tables = PropertiesUtil.getTables();
