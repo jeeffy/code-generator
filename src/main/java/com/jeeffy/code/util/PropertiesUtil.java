@@ -46,8 +46,10 @@ public class PropertiesUtil {
 	public static List<String> getLayers() throws Exception {
 		List<String> layers = null;
 		String layerStr = prop.getProperty("layers");
-		if(layerStr!=null){
+		if(layerStr != null && !"".equals(layerStr)){
 			layerStr = layerStr.trim();
+		}else{
+			layerStr = "controller, service, dao, mapper, bean, controllerTest, serviceTest";
 		}
 
 		if (layerStr != null && !"".equals(layerStr.trim())) {
@@ -60,7 +62,7 @@ public class PropertiesUtil {
 	public static List<String> getTables() throws Exception {
 		List<String> tables = null;
 		String tableStr = prop.getProperty("tables");
-		if(tableStr!=null){
+		if(tableStr != null && !"".equals(tableStr)){
 			tableStr = tableStr.trim();
 		}
 		if ("__all__".equals(tableStr)){
