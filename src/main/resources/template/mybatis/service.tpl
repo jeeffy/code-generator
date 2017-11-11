@@ -22,8 +22,8 @@ public class ${classType}Service {
 		return ${className}Dao.get(${id});
 	}
 	
-	public ${classType} create(${classType} ${className}) {
-		${className}Dao.create(${className});
+	public ${classType} save(${classType} ${className}) {
+		${className}Dao.save(${className});
 		return ${className};
 	}
 	

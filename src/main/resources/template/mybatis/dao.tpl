@@ -9,7 +9,7 @@ public interface ${classType}Dao {
 
 	List<${classType}> list(${classType} ${className});
 	${classType} get(${idType} ${id});
-	${idType} create(${classType} ${className});
+	${idType} save(${classType} ${className});
 	int update(${classType} ${className});
 	int delete(${idType} ${id});
 }

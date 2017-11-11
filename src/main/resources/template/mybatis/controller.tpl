@@ -26,8 +26,8 @@ public class ${classType}Controller {
     }
     
     @PostMapping
-    public ${classType} create(@RequestBody ${classType} ${className}) {
-		return ${className}Service.create(${className});
+    public ${classType} save(@RequestBody ${classType} ${className}) {
+		return ${className}Service.save(${className});
     }
 
     @PutMapping("/{${id}}")

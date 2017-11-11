@@ -30,12 +30,12 @@ public class ${classType}ServiceTest extends BaseTest {
     }
 
     @Test
-    public void testCreate() {
+    public void testSave() {
         ${classType} ${className} = new ${classType}();
         <#list fields as field>
         ${className}.set${field.fieldName?cap_first}(null);
         </#list>
-        ${className}Service.create(${className});
+        ${className}Service.save(${className});
     }
 
     @Test

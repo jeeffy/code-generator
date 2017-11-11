@@ -29,7 +29,7 @@ public class ${classType}ControllerTest extends BaseTest {
     }
 
     @Test
-    public void testCreate() throws Exception {
+    public void testSave() throws Exception {
         ${classType} ${className} = new ${classType}();
         <#list fields as field>
         ${className}.set${field.fieldName?cap_first}(null);

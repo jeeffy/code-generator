@@ -33,7 +33,7 @@
         SELECT * FROM ${tableName} WHERE ${format(id)} = ${r"#{"}${id}}
     </select>
 
-    <insert id="create" parameterType="${packageName}.bean.${classType}">
+    <insert id="save" parameterType="${packageName}.bean.${classType}">
     <#if dbType=="mysql" >
         <selectKey resultType="int"  order="AFTER" keyProperty="${id}" >
             SELECT LAST_INSERT_ID()
