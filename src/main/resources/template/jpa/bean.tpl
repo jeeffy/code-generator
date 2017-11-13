@@ -23,6 +23,6 @@ public class ${classType}{
     @ApiModelProperty("${field.comment}")
     </#if>
     private ${field.javaType} ${field.fieldName};
-
 </#list>
+
 }

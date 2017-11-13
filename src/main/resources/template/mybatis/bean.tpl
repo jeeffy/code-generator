@@ -13,4 +13,5 @@ public class ${classType}{
     </#if>
     private ${field.javaType} ${field.fieldName};
 </#list>
+
 }
