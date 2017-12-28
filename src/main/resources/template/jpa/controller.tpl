@@ -2,6 +2,7 @@ package ${packageName}.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
 import ${packageName}.bean.${classType};
@@ -15,7 +16,7 @@ public class ${classType}Controller {
 	private ${classType}Service ${className}Service;
 	
     @GetMapping
-    public Page<${classType}> list(${classType} ${className}, Integer page) {
+    public Page<${classType}> list(${classType} ${className}, Pageable page) {
         return ${className}Service.list(${className}, page);
     }
 

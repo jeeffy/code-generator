@@ -4,6 +4,8 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import ${packageName?substring(0, packageName?last_index_of("."))}.BaseTest;
 import ${packageName}.bean.${classType};
 
@@ -18,8 +20,9 @@ public class ${classType}ServiceTest extends BaseTest {
     @Test
     public void testList() {
         ${classType} ${className} = new ${classType}();
-        Page<${classType}> contracts = ${className}Service.list(${className}, 0);
-        Assert.assertNotNull(contracts);
+        Pageable page = new PageRequest(0, 10);
+        Page<${classType}> ${className}s = ${className}Service.list(${className}, page);
+        Assert.assertNotNull(${className}s);
     }
 
     @Test

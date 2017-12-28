@@ -22,34 +22,40 @@ public class PropertiesUtil {
 		}
 	}
 
-	public static String getPackage(){
-		String packageName = prop.getProperty("package");
-		if(packageName!=null){
-			packageName = packageName.trim();
+	public static String getProperty(String property){
+		String value = prop.getProperty(property);
+		if(value != null){
+			value = value.trim();
 		}
-		return packageName;
+		return value;
+	}
+
+	public static String getPackage(){
+		return getProperty("package");
 	}
 
 	public static String getModule(){
-		String packageName = getPackage();
-		return packageName.substring(packageName.lastIndexOf('.')+1);
+		String module = getProperty("module");
+		if (module != null && !"".equals(module)){
+			return module;
+		}else{
+			String packageName = getPackage();
+			return packageName.substring(packageName.lastIndexOf('.')+1);
+		}
+
 	}
 
 	public static String getLocation(){
-		String location = prop.getProperty("location");
-		if(location!=null){
-			location = location.trim();
-		}
-		return location;
+		return getProperty("location");
 	}
 
 	public static List<String> getLayers() throws Exception {
 		List<String> layers = null;
-		String layerStr = prop.getProperty("layers");
+		String layerStr = getProperty("layers");
 		if(layerStr != null && !"".equals(layerStr)){
 			layerStr = layerStr.trim();
 		}else{
-			layerStr = "controller, service, dao, mapper, bean, controllerTest, serviceTest";
+			layerStr = "controller, service, dao, bean, serviceTest";
 		}
 
 		if (layerStr != null && !"".equals(layerStr.trim())) {
@@ -61,7 +67,7 @@ public class PropertiesUtil {
 
 	public static List<String> getTables() throws Exception {
 		List<String> tables = null;
-		String tableStr = prop.getProperty("tables");
+		String tableStr = getProperty("tables");
 		if(tableStr != null && !"".equals(tableStr)){
 			tableStr = tableStr.trim();
 		}
@@ -76,21 +82,17 @@ public class PropertiesUtil {
 	}
 
 	public static String getRemovableTablePrefix(){
-		String str = prop.getProperty("removable-table-prefix");
-		if(str!=null){
-			str = str.trim();
-		}
-		return str;
+		return getProperty("removable-table-prefix");
 	}
 
 	public static String getDao(){
-		String str = prop.getProperty("dao");
-		if (str==null || "".equals(str)){
-			str = "jpa";
+		String value = getProperty("dao");
+		if (value==null || "".equals(value)){
+			value = "jpa";
 		}else{
-			str = str.trim().toLowerCase();
+			value = value.trim().toLowerCase();
 		}
-		return str;
+		return value;
 	}
 
 }
