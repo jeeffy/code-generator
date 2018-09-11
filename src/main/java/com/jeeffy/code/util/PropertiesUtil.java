@@ -88,7 +88,7 @@ public class PropertiesUtil {
 	public static String getDao(){
 		String value = getProperty("dao");
 		if (value==null || "".equals(value)){
-			value = "jpa";
+			value = "mybatis";
 		}else{
 			value = value.trim().toLowerCase();
 		}

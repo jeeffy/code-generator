@@ -31,7 +31,18 @@ public class BaseTest {
     }
 
     public void assertNotNull(Object object){
+        System.out.println(object);
         Assert.assertNotNull(object);
+    }
+
+    public void assertTrue(boolean condition){
+        System.out.println(condition);
+        Assert.assertTrue(condition);
+    }
+
+    public void assertEquals(Object expected, Object actual){
+        System.out.println(actual);
+        Assert.assertEquals(expected, actual);
     }
 
     public RequestBuilder get(String url, String data){
