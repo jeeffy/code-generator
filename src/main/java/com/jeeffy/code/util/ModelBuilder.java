@@ -14,8 +14,9 @@ public class ModelBuilder {
 
     public static Model build(String tableName){
         Model model = new Model();
-        model.setPackageName(PropertiesUtil.getPackage());
-        model.setModule(PropertiesUtil.getModule());
+        String packageName = PropertiesUtil.getPackage();
+        model.setPackageName(packageName);
+        model.setModule(packageName.substring(0, packageName.lastIndexOf(".")));
         model.setTableName(tableName);
         model.setDao(PropertiesUtil.getDao());
         Map<String,String> idMap =  DBUtil.getIdMap(tableName);
