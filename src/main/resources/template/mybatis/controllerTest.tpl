@@ -1,7 +1,7 @@
 package ${packageName}.controller;
 
 import org.junit.Test;
-import ${packageName}.BaseTest;
+import ${packageName?substring(0, packageName?last_index_of("."))}.BaseTest;
 import ${packageName}.bean.${classType};
 
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;

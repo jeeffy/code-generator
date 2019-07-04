@@ -19,8 +19,8 @@ public class ${classType}ServiceTest extends BaseTest {
     @Test
     public void testList() {
         ${classType} ${className} = new ${classType}();
-        List<${classType}> contracts = ${className}Service.list(${className});
-        Assert.assertNotNull(contracts);
+        List<${classType}> list = ${className}Service.list(${className});
+        Assert.assertNotNull(list);
     }
 
     @Test
